@@ -11,6 +11,3 @@ include /usr/share/cdbs/1/rules/tarball.mk
 include /usr/share/cdbs/1/class/autotools.mk
 
 DEB_DH_INSTALL_SOURCEDIR := debian/tmp
-
-# We currently cannot guarantee that the API is stable
-DEB_DH_MAKESHLIBS_ARGS_libnetfilter-conntrack1 := --version-info="libnetfilter-conntrack1 (= $(VERSION))"
