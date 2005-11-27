@@ -1,5 +1,5 @@
-libnetfilter-conntrack (0.0.28-1) unstable; urgency=low
+libnetfilter-conntrack (0.0.28-0+pre1) unstable; urgency=low
 
   * initial debian release
 
- --
+ -- Max Kellermann <max@duempel.org>  Sun, 27 Nov 2005 18:02:58 +0100
