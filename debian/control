@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Max Kellermann <max@duempel.org>
 Build-Depends: cdbs (>= 0.4), debhelper (>= 4.2), gcc (>= 3.4), libnfnetlink-dev (>= 0.0.13)
-Standards-Version: 3.6.1
+Standards-Version: 3.6.2
 
 Package: libnetfilter-conntrack1
 Architecture: any
