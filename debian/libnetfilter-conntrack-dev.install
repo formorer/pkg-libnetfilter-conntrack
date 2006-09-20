@@ -1,2 +1,3 @@
 usr/lib/*.{so,a}
+usr/lib/libnetfilter_conntrack/*.a
 usr/include
