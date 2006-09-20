@@ -75,7 +75,7 @@ binary-arch: build install
 	dh_testroot -a
 	dh_installdocs -plibnetfilter-conntrack1
 	ln -sf libnetfilter-conntrack1 debian/libnetfilter-conntrack1-dbg/usr/share/doc/libnetfilter-conntrack1-dbg
-	ln -sf libnetfilter-conntrack1 debian/libnetfilter-conntrack1-dbg/usr/share/doc/libnetfilter-conntrack-dev
+	ln -sf libnetfilter-conntrack1 debian/libnetfilter-conntrack-dev/usr/share/doc/libnetfilter-conntrack-dev
 	dh_installchangelogs -plibnetfilter-conntrack1
 	dh_install -a --sourcedir=debian/tmp
 	dh_link -a
