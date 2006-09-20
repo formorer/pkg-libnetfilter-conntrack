@@ -24,7 +24,6 @@ build-stamp:
 	# ./configure
 	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
 		--disable-dependency-tracking \
-		--without-rubydir \
 		--prefix=/usr
 
 	# Build libnetfilter-conntrack
