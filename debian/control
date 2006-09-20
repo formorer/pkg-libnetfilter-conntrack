@@ -2,8 +2,8 @@ Source: libnetfilter-conntrack
 Section: libs
 Priority: optional
 Maintainer: Max Kellermann <max@duempel.org>
-Build-Depends: cdbs (>= 0.4), debhelper (>= 4.2), gcc (>= 3.4), libnfnetlink-dev (>= 0.0.13)
-Standards-Version: 3.6.2
+Build-Depends: debhelper (>= 5), gcc (>= 3.4), libnfnetlink-dev (>= 0.0.16)
+Standards-Version: 3.7.2
 
 Package: libnetfilter-conntrack1
 Architecture: any
@@ -11,11 +11,21 @@ Depends: ${shlibs:Depends}
 Description: Netfilter netlink-conntrack library
  This is the userspace library for nfnetlink_conntrack.
 
-Package: libnetfilter-conntrack-dev
-Architecture: any
+Package: libnetfilter-conntrack1-dbg
 Section: libdevel
-Depends: libnetfilter-conntrack1 (= ${Source-Version}), libnfnetlink-dev (>= 0.0.13)
-Description: Netfilter netlink-conntrack library
+Architecture: any
+Depends: ${shlibs:Depends}, libnetfilter-conntrack1 (= ${Source-Version})
+Description: Debugging symbols for libnetfilter-conntrack1
  This is the userspace library for nfnetlink_conntrack.
  .
- This package provides the development files.
+ This package provides the debugging symbols.
+
+Package: libnetfilter-conntrack-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, pkg-config,
+ libnetfilter-conntrack1 (= ${Source-Version})
+Description: Development files for libnetfilter-conntrack1
+ This is the userspace library for nfnetlink_conntrack.
+ .
+ This package provides development files and static libraries.
