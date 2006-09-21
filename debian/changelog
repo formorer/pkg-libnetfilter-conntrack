@@ -1,5 +1,5 @@
 libnetfilter-conntrack (0.0.31-1) unstable; urgency=low
 
-  * initial debian release
+  * initial debian release (Closes: #388614)
 
  --
