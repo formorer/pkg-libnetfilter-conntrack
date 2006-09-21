@@ -2,4 +2,4 @@ libnetfilter-conntrack (0.0.31-1) unstable; urgency=low
 
   * initial debian release (Closes: #388614)
 
- -- Max Kellermann <max@duempel.org>  Thu, 21 Sep 2006 18:04:39 +0200
+ -- Max Kellermann <max@duempel.org>  Thu, 21 Sep 2006 18:29:00 +0200
