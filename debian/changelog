@@ -1,8 +1,9 @@
 libnetfilter-conntrack (0.0.75-1) unstable; urgency=low
 
   * New upstream release
+  * Add debian/compat file and remove compat from rules file 
 
- -- Alexander Wirt <formorer@debian.org>  Fri, 25 May 2007 11:20:41 +0200
+ -- Alexander Wirt <formorer@debian.org>  Fri, 25 May 2007 11:28:35 +0200
 
 libnetfilter-conntrack (0.0.50-1) unstable; urgency=low
 
