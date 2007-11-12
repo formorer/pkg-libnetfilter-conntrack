@@ -4,9 +4,10 @@ libnetfilter-conntrack (0.0.81-1) UNRELEASED; urgency=low
   * new upstream release
 
   [ Alexander Wirt ]
-  * Fix distclean call 
+  * Fix distclean call
+  * Make package Bin NMU safe 
 
- -- Alexander Wirt <formorer@debian.org>  Mon, 12 Nov 2007 11:47:56 +0100
+ -- Alexander Wirt <formorer@debian.org>  Mon, 12 Nov 2007 11:49:06 +0100
 
 libnetfilter-conntrack (0.0.75-1) unstable; urgency=low
 

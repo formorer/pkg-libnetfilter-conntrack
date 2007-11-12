@@ -16,7 +16,7 @@ Description: Netfilter netlink-conntrack library
 Package: libnetfilter-conntrack1-dbg
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, libnetfilter-conntrack1 (= ${Source-Version})
+Depends: ${shlibs:Depends}, libnetfilter-conntrack1 (=  ${binary:Version})
 Description: Debugging symbols for libnetfilter-conntrack1
  libnetfilter_conntrack is a userspace library providing a programming
  interface (API) to the in-kernel connection tracking state table.
@@ -27,7 +27,7 @@ Package: libnetfilter-conntrack-dev
 Section: libdevel
 Architecture: any
 Depends: ${shlibs:Depends}, pkg-config,
- libnetfilter-conntrack1 (= ${Source-Version}),
+ libnetfilter-conntrack1 (=  ${binary:Version}),
  libnfnetlink-dev (>= 0.0.25)
 Description: Development files for libnetfilter-conntrack1
  libnetfilter_conntrack is a userspace library providing a programming
