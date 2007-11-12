@@ -1,6 +1,6 @@
 Source: libnetfilter-conntrack
 Section: libs
-Priority: optional
+Priority: extra
 Maintainer: netfilter maintainers <netfilter-maintainers@ned.snow-crash.org>
 Uploaders: Max Kellermann <max@duempel.org>, Alexander Wirt <formorer@debian.org>
 Build-Depends: debhelper (>= 5), libnfnetlink-dev (>= 0.0.25)
