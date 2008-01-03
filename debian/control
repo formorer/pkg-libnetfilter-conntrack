@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: netfilter maintainers <netfilter-maintainers@ned.snow-crash.org>
 Uploaders: Max Kellermann <max@duempel.org>, Alexander Wirt <formorer@debian.org>
 Build-Depends: debhelper (>= 5), libnfnetlink-dev (>= 0.0.25)
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 
 Package: libnetfilter-conntrack1
 Architecture: any
