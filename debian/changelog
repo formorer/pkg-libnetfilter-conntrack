@@ -3,6 +3,7 @@ libnetfilter-conntrack (0.0.82-1) UNRELEASED; urgency=low
   * new upstream release
     - shlibs version set to 0.0.82 because of API additions
   * bumped Standards-Version to 3.7.3
+  * added Homepage header to debian/control
 
  -- Max Kellermann <max@duempel.org>  Thu,  3 Jan 2008 19:04:02 +0100
 
