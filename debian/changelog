@@ -1,4 +1,4 @@
-libnetfilter-conntrack (0.0.94-1) unstable; urgency=low
+libnetfilter-conntrack (0.0.96-1) unstable; urgency=low
 
   [ Max Kellermann ]
   * new upstream release
