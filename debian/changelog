@@ -1,3 +1,9 @@
+libnetfilter-conntrack (0.0.97-1) UNRELEASED; urgency=low
+
+  * new upstream release
+
+ -- Max Kellermann <max@duempel.org>  Wed, 15 Oct 2008 08:33:29 +0200
+
 libnetfilter-conntrack (0.0.96-1) unstable; urgency=low
 
   [ Max Kellermann ]
