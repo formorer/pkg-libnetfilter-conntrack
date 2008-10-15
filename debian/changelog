@@ -1,6 +1,7 @@
 libnetfilter-conntrack (0.0.97-1) UNRELEASED; urgency=low
 
   * new upstream release
+    - updated makeshlibs version due to API additions
 
  -- Max Kellermann <max@duempel.org>  Wed, 15 Oct 2008 08:33:29 +0200
 
