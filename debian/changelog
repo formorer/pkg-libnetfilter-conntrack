@@ -1,6 +1,7 @@
 libnetfilter-conntrack (0.0.99-1) UNRELEASED; urgency=low
 
   * New upstream release
+    - increased shlibs version because the symbols were added
 
  -- Max Kellermann <max@duempel.org>  Wed, 04 Mar 2009 10:02:03 +0100
 
