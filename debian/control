@@ -5,7 +5,7 @@ Maintainer: netfilter maintainers <netfilter-maintainers@ned.snow-crash.org>
 Uploaders: Max Kellermann <max@duempel.org>, Alexander Wirt <formorer@debian.org>
 Homepage: http://www.netfilter.org/projects/libnetfilter_conntrack/
 Build-Depends: debhelper (>= 5), libnfnetlink-dev (>= 0.0.39), libtool
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 
 Package: libnetfilter-conntrack1
 Architecture: any

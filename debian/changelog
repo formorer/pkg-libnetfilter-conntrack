@@ -4,7 +4,10 @@ libnetfilter-conntrack (0.0.99-1) unstable; urgency=low
   * New upstream release
     - increased shlibs version because the symbols were added
 
- -- Alexander Wirt <formorer@debian.org>  Thu, 02 Apr 2009 10:26:01 +0200
+  [ Alexander Wirt ]
+  * Bump standards version (no changes) 
+
+ -- Alexander Wirt <formorer@debian.org>  Thu, 02 Apr 2009 10:32:58 +0200
 
 libnetfilter-conntrack (0.0.97-1) unstable; urgency=low
 
