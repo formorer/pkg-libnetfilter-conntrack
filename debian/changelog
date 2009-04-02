@@ -1,9 +1,10 @@
-libnetfilter-conntrack (0.0.99-1) UNRELEASED; urgency=low
+libnetfilter-conntrack (0.0.99-1) unstable; urgency=low
 
+  [ Max Kellermann ]
   * New upstream release
     - increased shlibs version because the symbols were added
 
- -- Max Kellermann <max@duempel.org>  Wed, 04 Mar 2009 10:02:03 +0100
+ -- Alexander Wirt <formorer@debian.org>  Thu, 02 Apr 2009 10:26:01 +0200
 
 libnetfilter-conntrack (0.0.97-1) unstable; urgency=low
 
