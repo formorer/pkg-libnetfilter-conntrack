@@ -1,6 +1,7 @@
 libnetfilter-conntrack (0.0.100-1) UNRELEASED; urgency=low
 
   * new upstream release (Closes: #545915)
+    - so version increased to 3
 
  -- Max Kellermann <mk@cm4all.com>  Fri, 11 Sep 2009 13:24:52 +0200
 

@@ -56,16 +56,16 @@ binary-indep:
 binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
-	dh_installdocs -plibnetfilter-conntrack1 README
-	ln -sf libnetfilter-conntrack1 debian/libnetfilter-conntrack1-dbg/usr/share/doc/libnetfilter-conntrack1-dbg
-	ln -sf libnetfilter-conntrack1 debian/libnetfilter-conntrack-dev/usr/share/doc/libnetfilter-conntrack-dev
-	dh_installchangelogs -plibnetfilter-conntrack1
+	dh_installdocs -plibnetfilter-conntrack3 README
+	ln -sf libnetfilter-conntrack3 debian/libnetfilter-conntrack3-dbg/usr/share/doc/libnetfilter-conntrack3-dbg
+	ln -sf libnetfilter-conntrack3 debian/libnetfilter-conntrack-dev/usr/share/doc/libnetfilter-conntrack-dev
+	dh_installchangelogs -plibnetfilter-conntrack3
 	dh_install -a --sourcedir=debian/tmp
 	dh_link -a
-	dh_strip -a --dbg-package=libnetfilter-conntrack1-dbg
+	dh_strip -a --dbg-package=libnetfilter-conntrack3-dbg
 	dh_compress -a
 	dh_fixperms -a
-	dh_makeshlibs -a -V 'libnetfilter-conntrack1 (>= 0.0.99)'
+	dh_makeshlibs -a -V 'libnetfilter-conntrack3 (>= 0.0.100)'
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
