@@ -4,7 +4,7 @@ libnetfilter-conntrack (0.0.100-1) UNRELEASED; urgency=low
     - require libnfnetlink 1.0.0
     - so version increased to 3
 
- -- Max Kellermann <mk@cm4all.com>  Fri, 11 Sep 2009 13:24:52 +0200
+ -- Max Kellermann <max@duempel.org>  Fri, 11 Sep 2009 13:24:52 +0200
 
 libnetfilter-conntrack (0.0.99-1) unstable; urgency=low
 
