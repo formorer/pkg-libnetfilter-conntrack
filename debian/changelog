@@ -1,10 +1,15 @@
 libnetfilter-conntrack (0.0.100-1) UNRELEASED; urgency=low
 
+  [ Max Kellermann ]
   * new upstream release (Closes: #545915)
     - require libnfnetlink 1.0.0
     - so version increased to 3
 
- -- Max Kellermann <max@duempel.org>  Fri, 11 Sep 2009 13:24:52 +0200
+  [ Alexander Wirt ]
+  * Bump standards version
+  * Move dbg package to section debug
+
+ -- Alexander Wirt <formorer@debian.org>  Sun, 13 Sep 2009 20:43:42 +0200
 
 libnetfilter-conntrack (0.0.99-1) unstable; urgency=low
 

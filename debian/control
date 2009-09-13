@@ -5,7 +5,7 @@ Maintainer: netfilter maintainers <netfilter-maintainers@ned.snow-crash.org>
 Uploaders: Max Kellermann <max@duempel.org>, Alexander Wirt <formorer@debian.org>
 Homepage: http://www.netfilter.org/projects/libnetfilter_conntrack/
 Build-Depends: debhelper (>= 5), libnfnetlink-dev (>= 1.0.0), libtool
-Standards-Version: 3.8.1
+Standards-Version: 3.8.3
 
 Package: libnetfilter-conntrack3
 Architecture: any
@@ -15,7 +15,7 @@ Description: Netfilter netlink-conntrack library
  interface (API) to the in-kernel connection tracking state table.
 
 Package: libnetfilter-conntrack3-dbg
-Section: libdevel
+Section: debug
 Architecture: any
 Depends: ${shlibs:Depends}, libnetfilter-conntrack3 (=  ${binary:Version})
 Description: Debugging symbols for libnetfilter-conntrack3
