@@ -1,3 +1,9 @@
+libnetfilter-conntrack (0.0.101-1) unstable; urgency=low
+
+  * New upstream version 
+
+ -- Alexander Wirt <formorer@debian.org>  Sat, 30 Jan 2010 18:08:16 +0100
+
 libnetfilter-conntrack (0.0.100-1) unstable; urgency=low
 
   [ Max Kellermann ]
