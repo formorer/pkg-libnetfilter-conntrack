@@ -1,8 +1,7 @@
 Source: libnetfilter-conntrack
 Section: libs
 Priority: extra
-Maintainer: netfilter maintainers <netfilter-maintainers@ned.snow-crash.org>
-Uploaders: Max Kellermann <max@duempel.org>, Alexander Wirt <formorer@debian.org>
+Maintainer: Alexander Wirt <formorer@debian.org>
 Homepage: http://www.netfilter.org/projects/libnetfilter_conntrack/
 Build-Depends: debhelper (>= 5), libnfnetlink-dev (>= 1.0.0), libtool
 Standards-Version: 3.8.3
