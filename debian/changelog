@@ -1,6 +1,7 @@
 libnetfilter-conntrack (0.9.1-1) unstable; urgency=low
 
   * New upstream version (Closes: #616097)
+  * Bumps standards version
 
  -- Alexander Wirt <formorer@debian.org>  Thu, 03 Mar 2011 22:56:04 +0100
 
