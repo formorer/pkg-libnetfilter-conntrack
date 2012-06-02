@@ -8,7 +8,7 @@ Standards-Version: 3.9.3
 
 Package: libnetfilter-conntrack3
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends} 
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${misc:Pre-Depends} 
 Description: Netfilter netlink-conntrack library
  libnetfilter_conntrack is a userspace library providing a programming
  interface (API) to the in-kernel connection tracking state table.
@@ -16,7 +16,7 @@ Description: Netfilter netlink-conntrack library
 Package: libnetfilter-conntrack3-dbg
 Section: debug
 Architecture: any
-Depends: ${shlibs:Depends}, libnetfilter-conntrack3 (=  ${binary:Version}), ${misc:Depends}
+Depends: ${shlibs:Depends}, libnetfilter-conntrack3 (=  ${binary:Version}), ${misc:Depends}, ${misc:Pre-Depends}
 Description: Debugging symbols for libnetfilter-conntrack3
  libnetfilter_conntrack is a userspace library providing a programming
  interface (API) to the in-kernel connection tracking state table.
@@ -28,7 +28,7 @@ Section: libdevel
 Architecture: any
 Depends: ${shlibs:Depends}, pkg-config,
  libnetfilter-conntrack3 (= ${binary:Version}),
- libnfnetlink-dev (>= 1.0.0), ${misc:Depends}
+ libnfnetlink-dev (>= 1.0.0), ${misc:Depends}, ${misc:Pre-Depends}
 Description: Development files for libnetfilter-conntrack3
  libnetfilter_conntrack is a userspace library providing a programming
  interface (API) to the in-kernel connection tracking state table.
