@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: Alexander Wirt <formorer@debian.org>
 Homepage: http://www.netfilter.org/projects/libnetfilter_conntrack/
 Build-Depends: debhelper (>= 5), libnfnetlink-dev (>= 1.0.0), libtool
-Standards-Version: 3.9.1
+Standards-Version: 3.9.3
 
 Package: libnetfilter-conntrack3
 Architecture: any
