@@ -1,10 +1,20 @@
-libnetfilter-conntrack (1.0.1-1) UNRELEASED; urgency=low
+libnetfilter-conntrack (1.0.1-1) unstable; urgency=low
 
   * new upstream version
   * bump standards version
   * don't use brace expansion in .install file
+  * move to git
+  * [222ddd2] We don't have .a
+  * [4232f72] Use dh and bump deps to dh 8
+  * [04a00d2] Ok, lets use dh 9
+  * [872a23c] Build debug packages and so on
+  * [6e85030] Add predepends for multiarch
+  * [db785f8] Multiarch support
+  * [d3c9660] Use debsource 1.0
+  * [0664014] Add Multi-Arch: same to library
+  * [9cd0616] Add git information to controlfile
 
- -- Alexander Wirt <formorer@debian.org>  Sat, 02 Jun 2012 09:58:20 +0200
+ -- Alexander Wirt <formorer@debian.org>  Sun, 03 Jun 2012 08:26:11 +0200
 
 libnetfilter-conntrack (1.0.0-1) unstable; urgency=low
 
