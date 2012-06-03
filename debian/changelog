@@ -4,6 +4,7 @@ libnetfilter-conntrack (1.0.1-1) unstable; urgency=low
   * bump standards version
   * don't use brace expansion in .install file
   * move to git
+  * update copyright file
   * [222ddd2] We don't have .a
   * [4232f72] Use dh and bump deps to dh 8
   * [04a00d2] Ok, lets use dh 9
