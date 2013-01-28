@@ -1,7 +1,7 @@
 libnetfilter-conntrack (1.0.2-0.1) unstable; urgency=low
 
   * Non-maintainer upload.
-  * New upstream version.
+  * New upstream version (closes: #699203).
     + Add dependency on libmnl >= 1.0.3
   * Bump Standards-Version to 3.9.4.
   * lintian: Set -dbg's priority to extra.
