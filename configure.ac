@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to create configure.
 
-AC_INIT([libnetfilter_conntrack], [1.0.1])
+AC_INIT([libnetfilter_conntrack], [1.0.2])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CANONICAL_HOST
 AC_CONFIG_MACRO_DIR([m4])
@@ -24,6 +24,7 @@ esac
 
 dnl Dependencies
 PKG_CHECK_MODULES([LIBNFNETLINK], [libnfnetlink >= 1.0.0])
+PKG_CHECK_MODULES([LIBMNL], [libmnl >= 1.0.3])
 
 AC_CHECK_HEADERS(arpa/inet.h)
 dnl Check for inet_ntop
@@ -59,14 +60,9 @@ int main()
      ],[AC_MSG_RESULT(no)],[AC_MSG_RESULT(no)])
 fi
 
-if test ! -z "$libdir"; then
-	MODULE_DIR="\\\"$libdir/libnetfilter_conntrack/\\\""
-	CFLAGS="$CFLAGS -DLIBNETFILTER_CONNTRACK_DIR=$MODULE_DIR"
-fi
-
 dnl Output the makefile
 AC_CONFIG_FILES([Makefile src/Makefile include/Makefile utils/Makefile
-	qa/Makefile include/libnetfilter_conntrack/Makefile
+	examples/Makefile qa/Makefile include/libnetfilter_conntrack/Makefile
 	include/internal/Makefile src/conntrack/Makefile src/expect/Makefile
 	libnetfilter_conntrack.pc doxygen.cfg])
 AC_OUTPUT

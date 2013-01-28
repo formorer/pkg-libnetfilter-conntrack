@@ -52,18 +52,11 @@ build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/Make_global.am
-check_PROGRAMS = expect_dump$(EXEEXT) expect_create$(EXEEXT) \
-	expect_get$(EXEEXT) expect_delete$(EXEEXT) \
-	expect_flush$(EXEEXT) expect_events$(EXEEXT) \
-	expect_create_userspace$(EXEEXT) expect_create_nat$(EXEEXT) \
-	conntrack_create$(EXEEXT) conntrack_dump$(EXEEXT) \
-	conntrack_update$(EXEEXT) conntrack_delete$(EXEEXT) \
-	conntrack_flush$(EXEEXT) conntrack_create_nat$(EXEEXT) \
-	conntrack_get$(EXEEXT) conntrack_events$(EXEEXT) \
-	conntrack_master$(EXEEXT) conntrack_filter$(EXEEXT) \
-	conntrack_grp_create$(EXEEXT) conntrack_dump_filter$(EXEEXT) \
-	ctexp_events$(EXEEXT)
-subdir = utils
+check_PROGRAMS = nfct-mnl-create$(EXEEXT) nfct-mnl-del$(EXEEXT) \
+	nfct-mnl-dump$(EXEEXT) nfct-mnl-event$(EXEEXT) \
+	nfct-mnl-flush$(EXEEXT) nfct-mnl-get$(EXEEXT) \
+	nfexp-mnl-dump$(EXEEXT) nfexp-mnl-event$(EXEEXT)
+subdir = examples
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -74,75 +67,62 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_conntrack_create_OBJECTS = conntrack_create.$(OBJEXT)
-conntrack_create_OBJECTS = $(am_conntrack_create_OBJECTS)
-conntrack_create_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+am_nfct_mnl_create_OBJECTS = nfct-mnl-create.$(OBJEXT)
+nfct_mnl_create_OBJECTS = $(am_nfct_mnl_create_OBJECTS)
+nfct_mnl_create_DEPENDENCIES = ../src/libnetfilter_conntrack.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
-am_conntrack_create_nat_OBJECTS = conntrack_create_nat.$(OBJEXT)
-conntrack_create_nat_OBJECTS = $(am_conntrack_create_nat_OBJECTS)
-conntrack_create_nat_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_delete_OBJECTS = conntrack_delete.$(OBJEXT)
-conntrack_delete_OBJECTS = $(am_conntrack_delete_OBJECTS)
-conntrack_delete_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_dump_OBJECTS = conntrack_dump.$(OBJEXT)
-conntrack_dump_OBJECTS = $(am_conntrack_dump_OBJECTS)
-conntrack_dump_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_dump_filter_OBJECTS = conntrack_dump_filter.$(OBJEXT)
-conntrack_dump_filter_OBJECTS = $(am_conntrack_dump_filter_OBJECTS)
-conntrack_dump_filter_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_events_OBJECTS = conntrack_events.$(OBJEXT)
-conntrack_events_OBJECTS = $(am_conntrack_events_OBJECTS)
-conntrack_events_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_filter_OBJECTS = conntrack_filter.$(OBJEXT)
-conntrack_filter_OBJECTS = $(am_conntrack_filter_OBJECTS)
-conntrack_filter_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_flush_OBJECTS = conntrack_flush.$(OBJEXT)
-conntrack_flush_OBJECTS = $(am_conntrack_flush_OBJECTS)
-conntrack_flush_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_get_OBJECTS = conntrack_get.$(OBJEXT)
-conntrack_get_OBJECTS = $(am_conntrack_get_OBJECTS)
-conntrack_get_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_grp_create_OBJECTS = conntrack_grp_create.$(OBJEXT)
-conntrack_grp_create_OBJECTS = $(am_conntrack_grp_create_OBJECTS)
-conntrack_grp_create_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_master_OBJECTS = conntrack_master.$(OBJEXT)
-conntrack_master_OBJECTS = $(am_conntrack_master_OBJECTS)
-conntrack_master_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_conntrack_update_OBJECTS = conntrack_update.$(OBJEXT)
-conntrack_update_OBJECTS = $(am_conntrack_update_OBJECTS)
-conntrack_update_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_ctexp_events_OBJECTS = ctexp_events.$(OBJEXT)
-ctexp_events_OBJECTS = $(am_ctexp_events_OBJECTS)
-ctexp_events_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_expect_create_OBJECTS = expect_create.$(OBJEXT)
-expect_create_OBJECTS = $(am_expect_create_OBJECTS)
-expect_create_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_expect_create_nat_OBJECTS = expect_create_nat.$(OBJEXT)
-expect_create_nat_OBJECTS = $(am_expect_create_nat_OBJECTS)
-expect_create_nat_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_expect_create_userspace_OBJECTS =  \
-	expect_create_userspace.$(OBJEXT)
-expect_create_userspace_OBJECTS =  \
-	$(am_expect_create_userspace_OBJECTS)
-expect_create_userspace_DEPENDENCIES =  \
-	../src/libnetfilter_conntrack.la
-am_expect_delete_OBJECTS = expect_delete.$(OBJEXT)
-expect_delete_OBJECTS = $(am_expect_delete_OBJECTS)
-expect_delete_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_expect_dump_OBJECTS = expect_dump.$(OBJEXT)
-expect_dump_OBJECTS = $(am_expect_dump_OBJECTS)
-expect_dump_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_expect_events_OBJECTS = expect_events.$(OBJEXT)
-expect_events_OBJECTS = $(am_expect_events_OBJECTS)
-expect_events_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_expect_flush_OBJECTS = expect_flush.$(OBJEXT)
-expect_flush_OBJECTS = $(am_expect_flush_OBJECTS)
-expect_flush_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-am_expect_get_OBJECTS = expect_get.$(OBJEXT)
-expect_get_OBJECTS = $(am_expect_get_OBJECTS)
-expect_get_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_create_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(nfct_mnl_create_LDFLAGS) $(LDFLAGS) \
+	-o $@
+am_nfct_mnl_del_OBJECTS = nfct-mnl-del.$(OBJEXT)
+nfct_mnl_del_OBJECTS = $(am_nfct_mnl_del_OBJECTS)
+nfct_mnl_del_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_del_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(nfct_mnl_del_LDFLAGS) $(LDFLAGS) -o $@
+am_nfct_mnl_dump_OBJECTS = nfct-mnl-dump.$(OBJEXT)
+nfct_mnl_dump_OBJECTS = $(am_nfct_mnl_dump_OBJECTS)
+nfct_mnl_dump_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_dump_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(nfct_mnl_dump_LDFLAGS) $(LDFLAGS) -o $@
+am_nfct_mnl_event_OBJECTS = nfct-mnl-event.$(OBJEXT)
+nfct_mnl_event_OBJECTS = $(am_nfct_mnl_event_OBJECTS)
+nfct_mnl_event_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_event_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(nfct_mnl_event_LDFLAGS) $(LDFLAGS) -o \
+	$@
+am_nfct_mnl_flush_OBJECTS = nfct-mnl-flush.$(OBJEXT)
+nfct_mnl_flush_OBJECTS = $(am_nfct_mnl_flush_OBJECTS)
+nfct_mnl_flush_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_flush_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(nfct_mnl_flush_LDFLAGS) $(LDFLAGS) -o \
+	$@
+am_nfct_mnl_get_OBJECTS = nfct-mnl-get.$(OBJEXT)
+nfct_mnl_get_OBJECTS = $(am_nfct_mnl_get_OBJECTS)
+nfct_mnl_get_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_get_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(nfct_mnl_get_LDFLAGS) $(LDFLAGS) -o $@
+am_nfexp_mnl_dump_OBJECTS = nfexp-mnl-dump.$(OBJEXT)
+nfexp_mnl_dump_OBJECTS = $(am_nfexp_mnl_dump_OBJECTS)
+nfexp_mnl_dump_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfexp_mnl_dump_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(nfexp_mnl_dump_LDFLAGS) $(LDFLAGS) -o \
+	$@
+am_nfexp_mnl_event_OBJECTS = nfexp-mnl-event.$(OBJEXT)
+nfexp_mnl_event_OBJECTS = $(am_nfexp_mnl_event_OBJECTS)
+nfexp_mnl_event_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfexp_mnl_event_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(nfexp_mnl_event_LDFLAGS) $(LDFLAGS) \
+	-o $@
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -169,28 +149,14 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(conntrack_create_SOURCES) $(conntrack_create_nat_SOURCES) \
-	$(conntrack_delete_SOURCES) $(conntrack_dump_SOURCES) \
-	$(conntrack_dump_filter_SOURCES) $(conntrack_events_SOURCES) \
-	$(conntrack_filter_SOURCES) $(conntrack_flush_SOURCES) \
-	$(conntrack_get_SOURCES) $(conntrack_grp_create_SOURCES) \
-	$(conntrack_master_SOURCES) $(conntrack_update_SOURCES) \
-	$(ctexp_events_SOURCES) $(expect_create_SOURCES) \
-	$(expect_create_nat_SOURCES) \
-	$(expect_create_userspace_SOURCES) $(expect_delete_SOURCES) \
-	$(expect_dump_SOURCES) $(expect_events_SOURCES) \
-	$(expect_flush_SOURCES) $(expect_get_SOURCES)
-DIST_SOURCES = $(conntrack_create_SOURCES) \
-	$(conntrack_create_nat_SOURCES) $(conntrack_delete_SOURCES) \
-	$(conntrack_dump_SOURCES) $(conntrack_dump_filter_SOURCES) \
-	$(conntrack_events_SOURCES) $(conntrack_filter_SOURCES) \
-	$(conntrack_flush_SOURCES) $(conntrack_get_SOURCES) \
-	$(conntrack_grp_create_SOURCES) $(conntrack_master_SOURCES) \
-	$(conntrack_update_SOURCES) $(ctexp_events_SOURCES) \
-	$(expect_create_SOURCES) $(expect_create_nat_SOURCES) \
-	$(expect_create_userspace_SOURCES) $(expect_delete_SOURCES) \
-	$(expect_dump_SOURCES) $(expect_events_SOURCES) \
-	$(expect_flush_SOURCES) $(expect_get_SOURCES)
+SOURCES = $(nfct_mnl_create_SOURCES) $(nfct_mnl_del_SOURCES) \
+	$(nfct_mnl_dump_SOURCES) $(nfct_mnl_event_SOURCES) \
+	$(nfct_mnl_flush_SOURCES) $(nfct_mnl_get_SOURCES) \
+	$(nfexp_mnl_dump_SOURCES) $(nfexp_mnl_event_SOURCES)
+DIST_SOURCES = $(nfct_mnl_create_SOURCES) $(nfct_mnl_del_SOURCES) \
+	$(nfct_mnl_dump_SOURCES) $(nfct_mnl_event_SOURCES) \
+	$(nfct_mnl_flush_SOURCES) $(nfct_mnl_get_SOURCES) \
+	$(nfexp_mnl_dump_SOURCES) $(nfexp_mnl_event_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -328,48 +294,30 @@ top_srcdir = @top_srcdir@
 LIBVERSION = 7:0:4
 AM_CPPFLAGS = -I$(top_srcdir)/include ${LIBNFNETLINK_CFLAGS} ${LIBMNL_CFLAGS}
 AM_CFLAGS = -Wall
-conntrack_grp_create_SOURCES = conntrack_grp_create.c
-conntrack_grp_create_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_create_SOURCES = conntrack_create.c
-conntrack_create_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_get_SOURCES = conntrack_get.c
-conntrack_get_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_create_nat_SOURCES = conntrack_create_nat.c
-conntrack_create_nat_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_update_SOURCES = conntrack_update.c
-conntrack_update_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_delete_SOURCES = conntrack_delete.c
-conntrack_delete_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_dump_SOURCES = conntrack_dump.c
-conntrack_dump_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_dump_filter_SOURCES = conntrack_dump_filter.c
-conntrack_dump_filter_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_flush_SOURCES = conntrack_flush.c
-conntrack_flush_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_events_SOURCES = conntrack_events.c
-conntrack_events_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_filter_SOURCES = conntrack_filter.c
-conntrack_filter_LDADD = ../src/libnetfilter_conntrack.la
-conntrack_master_SOURCES = conntrack_master.c
-conntrack_master_LDADD = ../src/libnetfilter_conntrack.la
-expect_dump_SOURCES = expect_dump.c
-expect_dump_LDADD = ../src/libnetfilter_conntrack.la
-expect_create_nat_SOURCES = expect_create_nat.c
-expect_create_nat_LDADD = ../src/libnetfilter_conntrack.la
-expect_create_SOURCES = expect_create.c
-expect_create_LDADD = ../src/libnetfilter_conntrack.la
-expect_create_userspace_SOURCES = expect_create_userspace.c
-expect_create_userspace_LDADD = ../src/libnetfilter_conntrack.la
-expect_get_SOURCES = expect_get.c
-expect_get_LDADD = ../src/libnetfilter_conntrack.la
-expect_delete_SOURCES = expect_delete.c
-expect_delete_LDADD = ../src/libnetfilter_conntrack.la
-expect_flush_SOURCES = expect_flush.c
-expect_flush_LDADD = ../src/libnetfilter_conntrack.la
-expect_events_SOURCES = expect_events.c
-expect_events_LDADD = ../src/libnetfilter_conntrack.la
-ctexp_events_SOURCES = ctexp_events.c
-ctexp_events_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_create_SOURCES = nfct-mnl-create.c
+nfct_mnl_create_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_create_LDFLAGS = -dynamic -ldl -lmnl
+nfct_mnl_del_SOURCES = nfct-mnl-del.c
+nfct_mnl_del_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_del_LDFLAGS = -dynamic -ldl -lmnl
+nfct_mnl_dump_SOURCES = nfct-mnl-dump.c
+nfct_mnl_dump_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_dump_LDFLAGS = -dynamic -ldl -lmnl
+nfct_mnl_event_SOURCES = nfct-mnl-event.c
+nfct_mnl_event_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_event_LDFLAGS = -dynamic -ldl -lmnl
+nfct_mnl_flush_SOURCES = nfct-mnl-flush.c
+nfct_mnl_flush_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_flush_LDFLAGS = -dynamic -ldl -lmnl
+nfct_mnl_get_SOURCES = nfct-mnl-get.c
+nfct_mnl_get_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_get_LDFLAGS = -dynamic -ldl -lmnl
+nfexp_mnl_dump_SOURCES = nfexp-mnl-dump.c
+nfexp_mnl_dump_LDADD = ../src/libnetfilter_conntrack.la
+nfexp_mnl_dump_LDFLAGS = -dynamic -ldl -lmnl
+nfexp_mnl_event_SOURCES = nfexp-mnl-event.c
+nfexp_mnl_event_LDADD = ../src/libnetfilter_conntrack.la
+nfexp_mnl_event_LDFLAGS = -dynamic -ldl -lmnl
 all: all-am
 
 .SUFFIXES:
@@ -383,9 +331,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(top_srcdir)/Make_global.am $(am_
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign utils/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign examples/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign utils/Makefile
+	  $(AUTOMAKE) --foreign examples/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -414,69 +362,30 @@ clean-checkPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-conntrack_create$(EXEEXT): $(conntrack_create_OBJECTS) $(conntrack_create_DEPENDENCIES) $(EXTRA_conntrack_create_DEPENDENCIES) 
-	@rm -f conntrack_create$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_create_OBJECTS) $(conntrack_create_LDADD) $(LIBS)
-conntrack_create_nat$(EXEEXT): $(conntrack_create_nat_OBJECTS) $(conntrack_create_nat_DEPENDENCIES) $(EXTRA_conntrack_create_nat_DEPENDENCIES) 
-	@rm -f conntrack_create_nat$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_create_nat_OBJECTS) $(conntrack_create_nat_LDADD) $(LIBS)
-conntrack_delete$(EXEEXT): $(conntrack_delete_OBJECTS) $(conntrack_delete_DEPENDENCIES) $(EXTRA_conntrack_delete_DEPENDENCIES) 
-	@rm -f conntrack_delete$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_delete_OBJECTS) $(conntrack_delete_LDADD) $(LIBS)
-conntrack_dump$(EXEEXT): $(conntrack_dump_OBJECTS) $(conntrack_dump_DEPENDENCIES) $(EXTRA_conntrack_dump_DEPENDENCIES) 
-	@rm -f conntrack_dump$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_dump_OBJECTS) $(conntrack_dump_LDADD) $(LIBS)
-conntrack_dump_filter$(EXEEXT): $(conntrack_dump_filter_OBJECTS) $(conntrack_dump_filter_DEPENDENCIES) $(EXTRA_conntrack_dump_filter_DEPENDENCIES) 
-	@rm -f conntrack_dump_filter$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_dump_filter_OBJECTS) $(conntrack_dump_filter_LDADD) $(LIBS)
-conntrack_events$(EXEEXT): $(conntrack_events_OBJECTS) $(conntrack_events_DEPENDENCIES) $(EXTRA_conntrack_events_DEPENDENCIES) 
-	@rm -f conntrack_events$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_events_OBJECTS) $(conntrack_events_LDADD) $(LIBS)
-conntrack_filter$(EXEEXT): $(conntrack_filter_OBJECTS) $(conntrack_filter_DEPENDENCIES) $(EXTRA_conntrack_filter_DEPENDENCIES) 
-	@rm -f conntrack_filter$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_filter_OBJECTS) $(conntrack_filter_LDADD) $(LIBS)
-conntrack_flush$(EXEEXT): $(conntrack_flush_OBJECTS) $(conntrack_flush_DEPENDENCIES) $(EXTRA_conntrack_flush_DEPENDENCIES) 
-	@rm -f conntrack_flush$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_flush_OBJECTS) $(conntrack_flush_LDADD) $(LIBS)
-conntrack_get$(EXEEXT): $(conntrack_get_OBJECTS) $(conntrack_get_DEPENDENCIES) $(EXTRA_conntrack_get_DEPENDENCIES) 
-	@rm -f conntrack_get$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_get_OBJECTS) $(conntrack_get_LDADD) $(LIBS)
-conntrack_grp_create$(EXEEXT): $(conntrack_grp_create_OBJECTS) $(conntrack_grp_create_DEPENDENCIES) $(EXTRA_conntrack_grp_create_DEPENDENCIES) 
-	@rm -f conntrack_grp_create$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_grp_create_OBJECTS) $(conntrack_grp_create_LDADD) $(LIBS)
-conntrack_master$(EXEEXT): $(conntrack_master_OBJECTS) $(conntrack_master_DEPENDENCIES) $(EXTRA_conntrack_master_DEPENDENCIES) 
-	@rm -f conntrack_master$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_master_OBJECTS) $(conntrack_master_LDADD) $(LIBS)
-conntrack_update$(EXEEXT): $(conntrack_update_OBJECTS) $(conntrack_update_DEPENDENCIES) $(EXTRA_conntrack_update_DEPENDENCIES) 
-	@rm -f conntrack_update$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(conntrack_update_OBJECTS) $(conntrack_update_LDADD) $(LIBS)
-ctexp_events$(EXEEXT): $(ctexp_events_OBJECTS) $(ctexp_events_DEPENDENCIES) $(EXTRA_ctexp_events_DEPENDENCIES) 
-	@rm -f ctexp_events$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(ctexp_events_OBJECTS) $(ctexp_events_LDADD) $(LIBS)
-expect_create$(EXEEXT): $(expect_create_OBJECTS) $(expect_create_DEPENDENCIES) $(EXTRA_expect_create_DEPENDENCIES) 
-	@rm -f expect_create$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_create_OBJECTS) $(expect_create_LDADD) $(LIBS)
-expect_create_nat$(EXEEXT): $(expect_create_nat_OBJECTS) $(expect_create_nat_DEPENDENCIES) $(EXTRA_expect_create_nat_DEPENDENCIES) 
-	@rm -f expect_create_nat$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_create_nat_OBJECTS) $(expect_create_nat_LDADD) $(LIBS)
-expect_create_userspace$(EXEEXT): $(expect_create_userspace_OBJECTS) $(expect_create_userspace_DEPENDENCIES) $(EXTRA_expect_create_userspace_DEPENDENCIES) 
-	@rm -f expect_create_userspace$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_create_userspace_OBJECTS) $(expect_create_userspace_LDADD) $(LIBS)
-expect_delete$(EXEEXT): $(expect_delete_OBJECTS) $(expect_delete_DEPENDENCIES) $(EXTRA_expect_delete_DEPENDENCIES) 
-	@rm -f expect_delete$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_delete_OBJECTS) $(expect_delete_LDADD) $(LIBS)
-expect_dump$(EXEEXT): $(expect_dump_OBJECTS) $(expect_dump_DEPENDENCIES) $(EXTRA_expect_dump_DEPENDENCIES) 
-	@rm -f expect_dump$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_dump_OBJECTS) $(expect_dump_LDADD) $(LIBS)
-expect_events$(EXEEXT): $(expect_events_OBJECTS) $(expect_events_DEPENDENCIES) $(EXTRA_expect_events_DEPENDENCIES) 
-	@rm -f expect_events$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_events_OBJECTS) $(expect_events_LDADD) $(LIBS)
-expect_flush$(EXEEXT): $(expect_flush_OBJECTS) $(expect_flush_DEPENDENCIES) $(EXTRA_expect_flush_DEPENDENCIES) 
-	@rm -f expect_flush$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_flush_OBJECTS) $(expect_flush_LDADD) $(LIBS)
-expect_get$(EXEEXT): $(expect_get_OBJECTS) $(expect_get_DEPENDENCIES) $(EXTRA_expect_get_DEPENDENCIES) 
-	@rm -f expect_get$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(expect_get_OBJECTS) $(expect_get_LDADD) $(LIBS)
+nfct-mnl-create$(EXEEXT): $(nfct_mnl_create_OBJECTS) $(nfct_mnl_create_DEPENDENCIES) $(EXTRA_nfct_mnl_create_DEPENDENCIES) 
+	@rm -f nfct-mnl-create$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_create_LINK) $(nfct_mnl_create_OBJECTS) $(nfct_mnl_create_LDADD) $(LIBS)
+nfct-mnl-del$(EXEEXT): $(nfct_mnl_del_OBJECTS) $(nfct_mnl_del_DEPENDENCIES) $(EXTRA_nfct_mnl_del_DEPENDENCIES) 
+	@rm -f nfct-mnl-del$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_del_LINK) $(nfct_mnl_del_OBJECTS) $(nfct_mnl_del_LDADD) $(LIBS)
+nfct-mnl-dump$(EXEEXT): $(nfct_mnl_dump_OBJECTS) $(nfct_mnl_dump_DEPENDENCIES) $(EXTRA_nfct_mnl_dump_DEPENDENCIES) 
+	@rm -f nfct-mnl-dump$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_dump_LINK) $(nfct_mnl_dump_OBJECTS) $(nfct_mnl_dump_LDADD) $(LIBS)
+nfct-mnl-event$(EXEEXT): $(nfct_mnl_event_OBJECTS) $(nfct_mnl_event_DEPENDENCIES) $(EXTRA_nfct_mnl_event_DEPENDENCIES) 
+	@rm -f nfct-mnl-event$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_event_LINK) $(nfct_mnl_event_OBJECTS) $(nfct_mnl_event_LDADD) $(LIBS)
+nfct-mnl-flush$(EXEEXT): $(nfct_mnl_flush_OBJECTS) $(nfct_mnl_flush_DEPENDENCIES) $(EXTRA_nfct_mnl_flush_DEPENDENCIES) 
+	@rm -f nfct-mnl-flush$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_flush_LINK) $(nfct_mnl_flush_OBJECTS) $(nfct_mnl_flush_LDADD) $(LIBS)
+nfct-mnl-get$(EXEEXT): $(nfct_mnl_get_OBJECTS) $(nfct_mnl_get_DEPENDENCIES) $(EXTRA_nfct_mnl_get_DEPENDENCIES) 
+	@rm -f nfct-mnl-get$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_get_LINK) $(nfct_mnl_get_OBJECTS) $(nfct_mnl_get_LDADD) $(LIBS)
+nfexp-mnl-dump$(EXEEXT): $(nfexp_mnl_dump_OBJECTS) $(nfexp_mnl_dump_DEPENDENCIES) $(EXTRA_nfexp_mnl_dump_DEPENDENCIES) 
+	@rm -f nfexp-mnl-dump$(EXEEXT)
+	$(AM_V_CCLD)$(nfexp_mnl_dump_LINK) $(nfexp_mnl_dump_OBJECTS) $(nfexp_mnl_dump_LDADD) $(LIBS)
+nfexp-mnl-event$(EXEEXT): $(nfexp_mnl_event_OBJECTS) $(nfexp_mnl_event_DEPENDENCIES) $(EXTRA_nfexp_mnl_event_DEPENDENCIES) 
+	@rm -f nfexp-mnl-event$(EXEEXT)
+	$(AM_V_CCLD)$(nfexp_mnl_event_LINK) $(nfexp_mnl_event_OBJECTS) $(nfexp_mnl_event_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -484,27 +393,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_create.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_create_nat.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_delete.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_dump.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_dump_filter.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_events.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_filter.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_flush.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_get.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_grp_create.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_master.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/conntrack_update.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ctexp_events.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_create.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_create_nat.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_create_userspace.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_delete.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_dump.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_events.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_flush.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/expect_get.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-create.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-del.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-dump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-event.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-flush.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-get.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfexp-mnl-dump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfexp-mnl-event.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
