@@ -1,3 +1,14 @@
+libnetfilter-conntrack (1.0.2-0.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * New upstream version.
+    + Add dependency on libmnl >= 1.0.3
+  * Bump Standards-Version to 3.9.4.
+  * lintian: Set -dbg's priority to extra.
+  * Fix 'unknown substitution variable' warnings.
+
+ -- Maykel Moya <mmoya@mmoya.org>  Mon, 28 Jan 2013 12:39:38 +0100
+
 libnetfilter-conntrack (1.0.1-1) unstable; urgency=low
 
   * new upstream version
