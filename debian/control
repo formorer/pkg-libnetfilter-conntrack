@@ -19,6 +19,7 @@ Description: Netfilter netlink-conntrack library
 
 Package: libnetfilter-conntrack3-dbg
 Section: debug
+Priority: extra
 Architecture: any
 Depends: ${misc:Depends}, libnetfilter-conntrack3 (=  ${binary:Version})
 Description: Debugging symbols for libnetfilter-conntrack3
