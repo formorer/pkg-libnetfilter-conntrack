@@ -132,6 +132,7 @@ enum nf_conntrack_attr {
 	ATTR_SECCTX,				/* string */
 	ATTR_TIMESTAMP_START,			/* u64 bits, linux >= 2.6.38 */
 	ATTR_TIMESTAMP_STOP = 64,		/* u64 bits, linux >= 2.6.38 */
+	ATTR_HELPER_INFO,			/* variable length */
 	ATTR_MAX
 };
 
@@ -292,6 +293,11 @@ extern void nfct_set_attr_u32(struct nf_conntrack *ct,
 extern void nfct_set_attr_u64(struct nf_conntrack *ct,
 			      const enum nf_conntrack_attr type,
 			      u_int64_t value);
+
+extern void nfct_set_attr_l(struct nf_conntrack *ct,
+			    const enum nf_conntrack_attr type,
+			    const void *value,
+			    size_t len);
 
 /* getter */
 extern const void *nfct_get_attr(const struct nf_conntrack *ct,
@@ -533,6 +539,12 @@ int nfct_build_query(struct nfnl_subsys_handle *ssh,
 			    void *req,
 			    unsigned int size);
 
+/* New low level API: netlink functions */
+
+extern int nfct_nlmsg_build(struct nlmsghdr *nlh, const struct nf_conntrack *ct);
+extern int nfct_nlmsg_parse(const struct nlmsghdr *nlh, struct nf_conntrack *ct);
+extern int nfct_payload_parse(const void *payload, size_t payload_len, uint16_t l3num, struct nf_conntrack *ct);
+
 /*
  * NEW expectation API
  */
@@ -673,6 +685,11 @@ int nfexp_build_query(struct nfnl_subsys_handle *ssh,
 			     const void *data,
 			     void *buffer,
 			     unsigned int size);
+
+/* New low level API: netlink functions */
+
+extern int nfexp_nlmsg_build(struct nlmsghdr *nlh, const struct nf_expect *exp);
+extern int nfexp_nlmsg_parse(const struct nlmsghdr *nlh, struct nf_expect *exp);
 
 /* Bitset representing status of connection. Taken from ip_conntrack.h
  * 
