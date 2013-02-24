@@ -1,4 +1,4 @@
-libnetfilter-conntrack (1.0.2-1) unstable; urgency=low
+libnetfilter-conntrack (1.0.2-1) experimental; urgency=low
 
   [ Maykel Moya ]
   * New upstream version (closes: #699203).
