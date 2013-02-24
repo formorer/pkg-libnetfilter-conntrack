@@ -1,13 +1,12 @@
-libnetfilter-conntrack (1.0.2) unstable; urgency=low
+libnetfilter-conntrack (1.0.2-1) unstable; urgency=low
 
   [ Maykel Moya ]
   * New upstream version (closes: #699203).
     + Add dependency on libmnl >= 1.0.3
   * Bump Standards-Version to 3.9.4.
   * lintian: Set -dbg's priority to extra.
-  * Fix 'unknown substitution variable' warnings.
 
- -- Maykel Moya <mmoya@mmoya.org>  Mon, 28 Jan 2013 12:39:38 +0100
+ -- Alexander Wirt <formorer@debian.org>  Sun, 24 Feb 2013 12:07:13 +0100
 
 libnetfilter-conntrack (1.0.1-1) unstable; urgency=low
 
