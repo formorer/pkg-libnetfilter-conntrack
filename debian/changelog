@@ -1,6 +1,6 @@
-libnetfilter-conntrack (1.0.2-0.1) unstable; urgency=low
+libnetfilter-conntrack (1.0.2) unstable; urgency=low
 
-  * Non-maintainer upload.
+  [ Maykel Moya ]
   * New upstream version (closes: #699203).
     + Add dependency on libmnl >= 1.0.3
   * Bump Standards-Version to 3.9.4.
