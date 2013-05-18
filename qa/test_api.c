@@ -2,6 +2,7 @@
  * Run this after adding a new attribute to the nf_conntrack object
  */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,7 +36,7 @@ int main(void)
 	int ret, i;
 	struct nf_conntrack *ct, *ct2, *tmp;
 	struct nf_expect *exp, *tmp_exp;
-	char data[32];
+	char data[256];
 	const char *val;
 	int status;
 
@@ -83,9 +84,6 @@ int main(void)
 	ret = fork();
 	if (ret == 0) {
 		for (i=0; i<ATTR_MAX; i++) {
-			data[0] = (uint8_t) i;
-			nfct_set_attr(ct, i, data);
-			val = nfct_get_attr(ct, i);
 			/* These attributes cannot be set, ignore them. */
 			switch(i) {
 			case ATTR_ORIG_COUNTER_PACKETS:
@@ -97,7 +95,16 @@ int main(void)
 			case ATTR_TIMESTAMP_START:
 			case ATTR_TIMESTAMP_STOP:
 				continue;
+			/* These attributes require special handling */
+			case ATTR_HELPER_INFO:
+				nfct_set_attr_l(ct, i, data, sizeof(data));
+				break;
+			default:
+				data[0] = (uint8_t) i;
+				nfct_set_attr(ct, i, data);
 			}
+			val = nfct_get_attr(ct, i);
+
 			if (val[0] != data[0]) {
 				printf("ERROR: set/get operations don't match "
 				       "for attribute %d (%x != %x)\n",
@@ -199,6 +206,11 @@ int main(void)
 		eval_sigterm(status);
 	}
 
+	ct2 = nfct_clone(ct);
+	assert(ct2);
+	assert(nfct_cmp(ct, ct2, NFCT_CMP_ALL) == 1);
+	nfct_destroy(ct2);
+
 	ct2 = nfct_new();
 	if (!ct2) {
 		perror("nfct_new");
@@ -222,7 +234,7 @@ int main(void)
 	printf("== test get grp API ==\n");
 	ret = fork();
 	if (ret == 0) {
-		char buf[16];
+		char buf[32]; /* IPv6 group address is 16 bytes * 2 */
 
 		for (i=0; i<ATTR_GRP_MAX; i++)
 			nfct_get_attr_grp(ct2, i, buf);
@@ -236,7 +248,7 @@ int main(void)
 	ret = fork();
 	if (ret == 0) {
 		for (i=0; i<ATTR_GRP_MAX; i++) {
-			char buf[16];
+			char buf[32]; /* IPv6 group address is 16 bytes */
 
 			data[0] = (uint8_t) i;
 			nfct_set_attr_grp(ct2, i, data);
@@ -264,9 +276,12 @@ int main(void)
 	}
 
 	nfct_destroy(ct2);
+	printf("== destroy cloned ct entry ==\n");
 	nfct_destroy(ct);
 	nfct_destroy(tmp);
 	nfexp_destroy(exp);
 	nfexp_destroy(tmp_exp);
+	printf("OK\n");
+
 	return EXIT_SUCCESS;
 }
