@@ -1,4 +1,4 @@
-libnetfilter-conntrack (1.0.3-1) experimental; urgency=low
+libnetfilter-conntrack (1.0.3-1) unstable; urgency=low
 
   * [e2c323b] Imported Upstream version 1.0.3
 
