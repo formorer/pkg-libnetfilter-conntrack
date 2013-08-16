@@ -1,3 +1,10 @@
+libnetfilter-conntrack (1.0.4-1) unstable; urgency=low
+
+  * [2d8ac0b] Imported Upstream version 1.0.4
+    Closes: #719320
+
+ -- Alexander Wirt <formorer@debian.org>  Fri, 16 Aug 2013 06:56:00 +0200
+
 libnetfilter-conntrack (1.0.3-1) unstable; urgency=low
 
   * [e2c323b] Imported Upstream version 1.0.3
