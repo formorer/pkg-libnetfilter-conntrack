@@ -53,7 +53,8 @@ host_triplet = @host@
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/Make_global.am
 check_PROGRAMS = test_api$(EXEEXT) test_filter$(EXEEXT) \
-	ct_stress$(EXEEXT) ct_events_reliable$(EXEEXT)
+	test_connlabel$(EXEEXT) ct_stress$(EXEEXT) \
+	ct_events_reliable$(EXEEXT)
 subdir = qa
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -77,6 +78,9 @@ ct_stress_DEPENDENCIES = ../src/libnetfilter_conntrack.la
 am_test_api_OBJECTS = test_api.$(OBJEXT)
 test_api_OBJECTS = $(am_test_api_OBJECTS)
 test_api_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+am_test_connlabel_OBJECTS = test_connlabel.$(OBJEXT)
+test_connlabel_OBJECTS = $(am_test_connlabel_OBJECTS)
+test_connlabel_DEPENDENCIES = ../src/libnetfilter_conntrack.la
 am_test_filter_OBJECTS = test_filter.$(OBJEXT)
 test_filter_OBJECTS = $(am_test_filter_OBJECTS)
 test_filter_DEPENDENCIES = ../src/libnetfilter_conntrack.la
@@ -107,9 +111,11 @@ AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(ct_events_reliable_SOURCES) $(ct_stress_SOURCES) \
-	$(test_api_SOURCES) $(test_filter_SOURCES)
+	$(test_api_SOURCES) $(test_connlabel_SOURCES) \
+	$(test_filter_SOURCES)
 DIST_SOURCES = $(ct_events_reliable_SOURCES) $(ct_stress_SOURCES) \
-	$(test_api_SOURCES) $(test_filter_SOURCES)
+	$(test_api_SOURCES) $(test_connlabel_SOURCES) \
+	$(test_filter_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -244,11 +250,13 @@ top_srcdir = @top_srcdir@
 # Please read Chapter 6 "Library interface versions" of the libtool
 # documentation before making any modification
 # http://sources.redhat.com/autobook/autobook/autobook_91.html
-LIBVERSION = 7:0:4
+LIBVERSION = 8:0:5
 AM_CPPFLAGS = -I$(top_srcdir)/include ${LIBNFNETLINK_CFLAGS} ${LIBMNL_CFLAGS}
 AM_CFLAGS = -Wall
 test_api_SOURCES = test_api.c
 test_api_LDADD = ../src/libnetfilter_conntrack.la
+test_connlabel_SOURCES = test_connlabel.c
+test_connlabel_LDADD = ../src/libnetfilter_conntrack.la
 test_filter_SOURCES = test_filter.c
 test_filter_LDADD = ../src/libnetfilter_conntrack.la
 ct_stress_SOURCES = ct_stress.c
@@ -308,6 +316,9 @@ ct_stress$(EXEEXT): $(ct_stress_OBJECTS) $(ct_stress_DEPENDENCIES) $(EXTRA_ct_st
 test_api$(EXEEXT): $(test_api_OBJECTS) $(test_api_DEPENDENCIES) $(EXTRA_test_api_DEPENDENCIES) 
 	@rm -f test_api$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_api_OBJECTS) $(test_api_LDADD) $(LIBS)
+test_connlabel$(EXEEXT): $(test_connlabel_OBJECTS) $(test_connlabel_DEPENDENCIES) $(EXTRA_test_connlabel_DEPENDENCIES) 
+	@rm -f test_connlabel$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_connlabel_OBJECTS) $(test_connlabel_LDADD) $(LIBS)
 test_filter$(EXEEXT): $(test_filter_OBJECTS) $(test_filter_DEPENDENCIES) $(EXTRA_test_filter_DEPENDENCIES) 
 	@rm -f test_filter$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_filter_OBJECTS) $(test_filter_LDADD) $(LIBS)
@@ -321,6 +332,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ct_events_reliable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ct_stress.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_api.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_connlabel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_filter.Po@am__quote@
 
 .c.o:
