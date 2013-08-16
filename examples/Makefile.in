@@ -53,7 +53,8 @@ host_triplet = @host@
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/Make_global.am
 check_PROGRAMS = nfct-mnl-create$(EXEEXT) nfct-mnl-del$(EXEEXT) \
-	nfct-mnl-dump$(EXEEXT) nfct-mnl-event$(EXEEXT) \
+	nfct-mnl-dump$(EXEEXT) nfct-mnl-dump-labels$(EXEEXT) \
+	nfct-mnl-set-label$(EXEEXT) nfct-mnl-event$(EXEEXT) \
 	nfct-mnl-flush$(EXEEXT) nfct-mnl-get$(EXEEXT) \
 	nfexp-mnl-dump$(EXEEXT) nfexp-mnl-event$(EXEEXT)
 subdir = examples
@@ -89,6 +90,13 @@ nfct_mnl_dump_DEPENDENCIES = ../src/libnetfilter_conntrack.la
 nfct_mnl_dump_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(nfct_mnl_dump_LDFLAGS) $(LDFLAGS) -o $@
+am_nfct_mnl_dump_labels_OBJECTS = nfct-mnl-dump-labels.$(OBJEXT)
+nfct_mnl_dump_labels_OBJECTS = $(am_nfct_mnl_dump_labels_OBJECTS)
+nfct_mnl_dump_labels_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_dump_labels_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(nfct_mnl_dump_labels_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am_nfct_mnl_event_OBJECTS = nfct-mnl-event.$(OBJEXT)
 nfct_mnl_event_OBJECTS = $(am_nfct_mnl_event_OBJECTS)
 nfct_mnl_event_DEPENDENCIES = ../src/libnetfilter_conntrack.la
@@ -109,6 +117,13 @@ nfct_mnl_get_DEPENDENCIES = ../src/libnetfilter_conntrack.la
 nfct_mnl_get_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(nfct_mnl_get_LDFLAGS) $(LDFLAGS) -o $@
+am_nfct_mnl_set_label_OBJECTS = nfct-mnl-set-label.$(OBJEXT)
+nfct_mnl_set_label_OBJECTS = $(am_nfct_mnl_set_label_OBJECTS)
+nfct_mnl_set_label_DEPENDENCIES = ../src/libnetfilter_conntrack.la
+nfct_mnl_set_label_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(AM_CFLAGS) $(CFLAGS) $(nfct_mnl_set_label_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am_nfexp_mnl_dump_OBJECTS = nfexp-mnl-dump.$(OBJEXT)
 nfexp_mnl_dump_OBJECTS = $(am_nfexp_mnl_dump_OBJECTS)
 nfexp_mnl_dump_DEPENDENCIES = ../src/libnetfilter_conntrack.la
@@ -150,12 +165,14 @@ AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(nfct_mnl_create_SOURCES) $(nfct_mnl_del_SOURCES) \
-	$(nfct_mnl_dump_SOURCES) $(nfct_mnl_event_SOURCES) \
-	$(nfct_mnl_flush_SOURCES) $(nfct_mnl_get_SOURCES) \
+	$(nfct_mnl_dump_SOURCES) $(nfct_mnl_dump_labels_SOURCES) \
+	$(nfct_mnl_event_SOURCES) $(nfct_mnl_flush_SOURCES) \
+	$(nfct_mnl_get_SOURCES) $(nfct_mnl_set_label_SOURCES) \
 	$(nfexp_mnl_dump_SOURCES) $(nfexp_mnl_event_SOURCES)
 DIST_SOURCES = $(nfct_mnl_create_SOURCES) $(nfct_mnl_del_SOURCES) \
-	$(nfct_mnl_dump_SOURCES) $(nfct_mnl_event_SOURCES) \
-	$(nfct_mnl_flush_SOURCES) $(nfct_mnl_get_SOURCES) \
+	$(nfct_mnl_dump_SOURCES) $(nfct_mnl_dump_labels_SOURCES) \
+	$(nfct_mnl_event_SOURCES) $(nfct_mnl_flush_SOURCES) \
+	$(nfct_mnl_get_SOURCES) $(nfct_mnl_set_label_SOURCES) \
 	$(nfexp_mnl_dump_SOURCES) $(nfexp_mnl_event_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -291,7 +308,7 @@ top_srcdir = @top_srcdir@
 # Please read Chapter 6 "Library interface versions" of the libtool
 # documentation before making any modification
 # http://sources.redhat.com/autobook/autobook/autobook_91.html
-LIBVERSION = 7:0:4
+LIBVERSION = 8:0:5
 AM_CPPFLAGS = -I$(top_srcdir)/include ${LIBNFNETLINK_CFLAGS} ${LIBMNL_CFLAGS}
 AM_CFLAGS = -Wall
 nfct_mnl_create_SOURCES = nfct-mnl-create.c
@@ -303,6 +320,12 @@ nfct_mnl_del_LDFLAGS = -dynamic -ldl -lmnl
 nfct_mnl_dump_SOURCES = nfct-mnl-dump.c
 nfct_mnl_dump_LDADD = ../src/libnetfilter_conntrack.la
 nfct_mnl_dump_LDFLAGS = -dynamic -ldl -lmnl
+nfct_mnl_dump_labels_SOURCES = nfct-mnl-dump-labels.c
+nfct_mnl_dump_labels_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_dump_labels_LDFLAGS = -dynamic -ldl -lmnl
+nfct_mnl_set_label_SOURCES = nfct-mnl-set-label.c
+nfct_mnl_set_label_LDADD = ../src/libnetfilter_conntrack.la
+nfct_mnl_set_label_LDFLAGS = -dynamic -ldl -lmnl
 nfct_mnl_event_SOURCES = nfct-mnl-event.c
 nfct_mnl_event_LDADD = ../src/libnetfilter_conntrack.la
 nfct_mnl_event_LDFLAGS = -dynamic -ldl -lmnl
@@ -371,6 +394,9 @@ nfct-mnl-del$(EXEEXT): $(nfct_mnl_del_OBJECTS) $(nfct_mnl_del_DEPENDENCIES) $(EX
 nfct-mnl-dump$(EXEEXT): $(nfct_mnl_dump_OBJECTS) $(nfct_mnl_dump_DEPENDENCIES) $(EXTRA_nfct_mnl_dump_DEPENDENCIES) 
 	@rm -f nfct-mnl-dump$(EXEEXT)
 	$(AM_V_CCLD)$(nfct_mnl_dump_LINK) $(nfct_mnl_dump_OBJECTS) $(nfct_mnl_dump_LDADD) $(LIBS)
+nfct-mnl-dump-labels$(EXEEXT): $(nfct_mnl_dump_labels_OBJECTS) $(nfct_mnl_dump_labels_DEPENDENCIES) $(EXTRA_nfct_mnl_dump_labels_DEPENDENCIES) 
+	@rm -f nfct-mnl-dump-labels$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_dump_labels_LINK) $(nfct_mnl_dump_labels_OBJECTS) $(nfct_mnl_dump_labels_LDADD) $(LIBS)
 nfct-mnl-event$(EXEEXT): $(nfct_mnl_event_OBJECTS) $(nfct_mnl_event_DEPENDENCIES) $(EXTRA_nfct_mnl_event_DEPENDENCIES) 
 	@rm -f nfct-mnl-event$(EXEEXT)
 	$(AM_V_CCLD)$(nfct_mnl_event_LINK) $(nfct_mnl_event_OBJECTS) $(nfct_mnl_event_LDADD) $(LIBS)
@@ -380,6 +406,9 @@ nfct-mnl-flush$(EXEEXT): $(nfct_mnl_flush_OBJECTS) $(nfct_mnl_flush_DEPENDENCIES
 nfct-mnl-get$(EXEEXT): $(nfct_mnl_get_OBJECTS) $(nfct_mnl_get_DEPENDENCIES) $(EXTRA_nfct_mnl_get_DEPENDENCIES) 
 	@rm -f nfct-mnl-get$(EXEEXT)
 	$(AM_V_CCLD)$(nfct_mnl_get_LINK) $(nfct_mnl_get_OBJECTS) $(nfct_mnl_get_LDADD) $(LIBS)
+nfct-mnl-set-label$(EXEEXT): $(nfct_mnl_set_label_OBJECTS) $(nfct_mnl_set_label_DEPENDENCIES) $(EXTRA_nfct_mnl_set_label_DEPENDENCIES) 
+	@rm -f nfct-mnl-set-label$(EXEEXT)
+	$(AM_V_CCLD)$(nfct_mnl_set_label_LINK) $(nfct_mnl_set_label_OBJECTS) $(nfct_mnl_set_label_LDADD) $(LIBS)
 nfexp-mnl-dump$(EXEEXT): $(nfexp_mnl_dump_OBJECTS) $(nfexp_mnl_dump_DEPENDENCIES) $(EXTRA_nfexp_mnl_dump_DEPENDENCIES) 
 	@rm -f nfexp-mnl-dump$(EXEEXT)
 	$(AM_V_CCLD)$(nfexp_mnl_dump_LINK) $(nfexp_mnl_dump_OBJECTS) $(nfexp_mnl_dump_LDADD) $(LIBS)
@@ -395,10 +424,12 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-create.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-del.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-dump-labels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-dump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-event.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-flush.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-get.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfct-mnl-set-label.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfexp-mnl-dump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nfexp-mnl-event.Po@am__quote@
 

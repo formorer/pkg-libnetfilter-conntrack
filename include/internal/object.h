@@ -189,6 +189,9 @@ struct nf_conntrack {
 
 	void *helper_info;
 	size_t helper_info_len;
+
+	struct nfct_bitmask *connlabels;
+	struct nfct_bitmask *connlabels_mask;
 };
 
 /*
@@ -296,5 +299,15 @@ struct nf_expect {
 
 	u_int32_t 		set[1];
 };
+
+/*
+ * bitmask object
+ */
+struct nfct_bitmask {
+	unsigned int words;
+	uint32_t bits[];
+};
+
+struct nfct_labelmap;
 
 #endif
