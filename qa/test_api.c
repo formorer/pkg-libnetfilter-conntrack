@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -79,6 +80,43 @@ static void test_nfct_bitmask(void)
 		assert(!nfct_bitmask_test_bit(b, i));
 	}
 
+	/* nfct_bitmask_clear() */
+	for (i = 0; i < maxb; i++) {
+		nfct_bitmask_set_bit(b, i);
+		assert(nfct_bitmask_test_bit(b, i));
+		nfct_bitmask_clear(b);
+		assert(!nfct_bitmask_test_bit(b, i));
+	}
+
+	for (i = 0; i < maxb; i++)
+		nfct_bitmask_set_bit(b, i);
+	nfct_bitmask_clear(b);
+	for (i = 0; i < maxb; i++)
+		assert(!nfct_bitmask_test_bit(b, i));
+
+	/* nfct_bitmask_equal() */
+	for (i = 0; i < maxb / 32 * 32; i += 32) {
+		a = nfct_bitmask_new(i);
+		assert(!nfct_bitmask_equal(a, b));
+		nfct_bitmask_destroy(a);
+	}
+
+	a = nfct_bitmask_clone(b);
+	assert(nfct_bitmask_equal(a, b));
+	for (i = 0; i < maxb; i++) {
+		if (nfct_bitmask_test_bit(a, i)) {
+			nfct_bitmask_unset_bit(a, i);
+			assert(!nfct_bitmask_equal(a, b));
+			nfct_bitmask_set_bit(a, i);
+		} else {
+			nfct_bitmask_set_bit(a, i);
+			assert(!nfct_bitmask_equal(a, b));
+			nfct_bitmask_unset_bit(a, i);
+		}
+		assert(nfct_bitmask_equal(a, b));
+	}
+
+	nfct_bitmask_destroy(a);
 	nfct_bitmask_destroy(b);
 
 	ct1 = nfct_new();
@@ -242,11 +280,112 @@ static int test_nfct_cmp_api_single(struct nf_conntrack *ct1,
 	return 0;
 }
 
+static int test_cmp_attr32(int attr, bool at1, bool at2,
+			   uint32_t v1, uint32_t v2, unsigned int flags)
+{
+	struct nf_conntrack *ct1 = nfct_new();
+	struct nf_conntrack *ct2 = nfct_new();
+	int ret;
+
+	if (at1)
+		nfct_set_attr_u32(ct1, attr, v1);
+	if (at2)
+		nfct_set_attr_u32(ct2, attr, v2);
+
+	ret = nfct_cmp(ct1, ct2, NFCT_CMP_ALL | flags);
+
+	nfct_destroy(ct1);
+	nfct_destroy(ct2);
+
+	return ret;
+}
+
+static void test_nfct_cmp_attr(int attr)
+{
+	unsigned int flags = 0;
+
+	/* 0000, 1000, 1100, 0010, 1010... */
+	/*		       attr       at1    at2    v1	v2 */
+	assert(test_cmp_attr32(attr, false, false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, false,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, true,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	0,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	0,	1,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  true,	0,	1,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	1,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	1,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	1,	flags) == 1);
+
+	flags = NFCT_CMP_STRICT;
+	assert(test_cmp_attr32(attr, false, false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, false,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	0,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, true,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	0,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	0,	1,	flags) == 0);
+	assert(test_cmp_attr32(attr, true,  true,	0,	1,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	1,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	1,	flags) == 0); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	1,	1,	flags) == 0); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	1,	flags) == 1);
+
+	flags = NFCT_CMP_MASK;
+	assert(test_cmp_attr32(attr, false, false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, false,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	0,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, true,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	0,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	0,	1,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  true,	0,	1,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	1,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	1,	flags) == 0); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	1,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	1,	flags) == 1);
+
+	flags = NFCT_CMP_STRICT|NFCT_CMP_MASK;
+	assert(test_cmp_attr32(attr, false, false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  false,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, true,  true,	0,	0,	flags) == 1);
+	assert(test_cmp_attr32(attr, false, false,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	0,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, true,	1,	0,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	0,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	0,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	0,	1,	flags) == 0);
+	assert(test_cmp_attr32(attr, true,  true,	0,	1,	flags) == 0);
+	assert(test_cmp_attr32(attr, false, false,	1,	1,	flags) == 1); /* verbose */
+	assert(test_cmp_attr32(attr, true,  false,	1,	1,	flags) == 0); /* verbose */
+	assert(test_cmp_attr32(attr, false, true,	1,	1,	flags) == 0); /* verbose */
+	assert(test_cmp_attr32(attr, true,  true,	1,	1,	flags) == 1);
+}
+
 static void test_nfct_cmp_api(struct nf_conntrack *ct1, struct nf_conntrack *ct2)
 {
 	int i;
 
 	printf("== test cmp API ==\n");
+
+	test_nfct_cmp_attr(ATTR_ZONE);
+	test_nfct_cmp_attr(ATTR_MARK);
 
 	assert(nfct_cmp(ct1, ct2, NFCT_CMP_ALL) == 1);
 	assert(nfct_cmp(ct1, ct2, NFCT_CMP_ALL|NFCT_CMP_STRICT) == 0);

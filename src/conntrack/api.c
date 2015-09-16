@@ -8,6 +8,7 @@
  */
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h> /* for memset */
 #include <errno.h>
 #include <assert.h>
@@ -410,9 +411,9 @@ void nfct_set_attr(struct nf_conntrack *ct,
  */
 void nfct_set_attr_u8(struct nf_conntrack *ct,
 		      const enum nf_conntrack_attr type, 
-		      u_int8_t value)
+		      uint8_t value)
 {
-	nfct_set_attr_l(ct, type, &value, sizeof(u_int8_t));
+	nfct_set_attr_l(ct, type, &value, sizeof(uint8_t));
 }
 
 /**
@@ -423,9 +424,9 @@ void nfct_set_attr_u8(struct nf_conntrack *ct,
  */
 void nfct_set_attr_u16(struct nf_conntrack *ct,
 		       const enum nf_conntrack_attr type, 
-		       u_int16_t value)
+		       uint16_t value)
 {
-	nfct_set_attr_l(ct, type, &value, sizeof(u_int16_t));
+	nfct_set_attr_l(ct, type, &value, sizeof(uint16_t));
 }
 
 /**
@@ -436,9 +437,9 @@ void nfct_set_attr_u16(struct nf_conntrack *ct,
  */
 void nfct_set_attr_u32(struct nf_conntrack *ct,
 		       const enum nf_conntrack_attr type, 
-		       u_int32_t value)
+		       uint32_t value)
 {
-	nfct_set_attr_l(ct, type, &value, sizeof(u_int32_t));
+	nfct_set_attr_l(ct, type, &value, sizeof(uint32_t));
 }
 
 /**
@@ -449,9 +450,9 @@ void nfct_set_attr_u32(struct nf_conntrack *ct,
  */
 void nfct_set_attr_u64(struct nf_conntrack *ct,
 		       const enum nf_conntrack_attr type, 
-		       u_int64_t value)
+		       uint64_t value)
 {
-	nfct_set_attr_l(ct, type, &value, sizeof(u_int64_t));
+	nfct_set_attr_l(ct, type, &value, sizeof(uint64_t));
 }
 
 /**
@@ -491,10 +492,10 @@ const void *nfct_get_attr(const struct nf_conntrack *ct,
  * set, 0 is returned. In order to check if the attribute is set or not,
  * use nfct_attr_is_set.
  */
-u_int8_t nfct_get_attr_u8(const struct nf_conntrack *ct,
+uint8_t nfct_get_attr_u8(const struct nf_conntrack *ct,
 			  const enum nf_conntrack_attr type)
 {
-	const u_int8_t *ret = nfct_get_attr(ct, type);
+	const uint8_t *ret = nfct_get_attr(ct, type);
 	return ret == NULL ? 0 : *ret;
 }
 
@@ -507,10 +508,10 @@ u_int8_t nfct_get_attr_u8(const struct nf_conntrack *ct,
  * set, 0 is returned. In order to check if the attribute is set or not,
  * use nfct_attr_is_set.
  */
-u_int16_t nfct_get_attr_u16(const struct nf_conntrack *ct,
+uint16_t nfct_get_attr_u16(const struct nf_conntrack *ct,
 			    const enum nf_conntrack_attr type)
 {
-	const u_int16_t *ret = nfct_get_attr(ct, type);
+	const uint16_t *ret = nfct_get_attr(ct, type);
 	return ret == NULL ? 0 : *ret;
 }
 
@@ -523,10 +524,10 @@ u_int16_t nfct_get_attr_u16(const struct nf_conntrack *ct,
  * set, 0 is returned. In order to check if the attribute is set or not,
  * use nfct_attr_is_set.
  */
-u_int32_t nfct_get_attr_u32(const struct nf_conntrack *ct,
+uint32_t nfct_get_attr_u32(const struct nf_conntrack *ct,
 			    const enum nf_conntrack_attr type)
 {
-	const u_int32_t *ret = nfct_get_attr(ct, type);
+	const uint32_t *ret = nfct_get_attr(ct, type);
 	return ret == NULL ? 0 : *ret;
 }
 
@@ -539,10 +540,10 @@ u_int32_t nfct_get_attr_u32(const struct nf_conntrack *ct,
  * set, 0 is returned. In order to check if the attribute is set or not,
  * use nfct_attr_is_set.
  */
-u_int64_t nfct_get_attr_u64(const struct nf_conntrack *ct,
+uint64_t nfct_get_attr_u64(const struct nf_conntrack *ct,
 			    const enum nf_conntrack_attr type)
 {
-	const u_int64_t *ret = nfct_get_attr(ct, type);
+	const uint64_t *ret = nfct_get_attr(ct, type);
 	return ret == NULL ? 0 : *ret;
 }
 
@@ -769,8 +770,8 @@ int nfct_attr_grp_unset(struct nf_conntrack *ct,
 int nfct_build_conntrack(struct nfnl_subsys_handle *ssh,
 			 void *req,
 			 size_t size,
-			 u_int16_t type,
-			 u_int16_t flags,
+			 uint16_t type,
+			 uint16_t flags,
 			 const struct nf_conntrack *ct)
 {
 	assert(ssh != NULL);
@@ -786,7 +787,7 @@ __build_query_ct(struct nfnl_subsys_handle *ssh,
 		 const void *data, void *buffer, unsigned int size)
 {
 	struct nfnlhdr *req = buffer;
-	const u_int32_t *family = data;
+	const uint32_t *family = data;
 
 	assert(ssh != NULL);
 	assert(data != NULL);
@@ -865,7 +866,7 @@ __build_query_ct(struct nfnl_subsys_handle *ssh,
  * 	- NFCT_Q_DUMP_FILTER: dump the conntrack table
  * 	- NFCT_Q_DUMP_FILTER_RESET: dump the conntrack table and reset counters
  *
- * Pass a valid pointer to the protocol family (u_int32_t)
+ * Pass a valid pointer to the protocol family (uint32_t)
  *
  * On success, 0 is returned. On error, -1 is returned and errno is set
  * appropiately.
@@ -1006,9 +1007,15 @@ int nfct_send(struct nfct_handle *h,
  * nfct_catch - catch events
  * \param h library handler
  *
- * On error, -1 is returned and errno is set appropiately. On success, 
+ * This function receives the event from the kernel and it invokes the
+ * callback that was registered to this handle.
+ *
+ * On error, -1 is returned and errno is set appropiately. On success,
  * a value greater or equal to 0 is returned indicating the callback
- * verdict: NFCT_CB_STOP, NFCT_CB_CONTINUE or NFCT_CB_STOLEN
+ * verdict: NFCT_CB_STOP, NFCT_CB_CONTINUE or NFCT_CB_STOLEN.
+ *
+ * Beware that this function also handles expectation events, in case they are
+ * received through this handle.
  */
 int nfct_catch(struct nfct_handle *h)
 {
@@ -1372,7 +1379,7 @@ void nfct_filter_add_attr(struct nfct_filter *filter,
  */
 void nfct_filter_add_attr_u32(struct nfct_filter *filter,
 			      const enum nfct_filter_attr type,
-			      u_int32_t value)
+			      uint32_t value)
 {
 	nfct_filter_add_attr(filter, type, &value);
 }
@@ -1384,10 +1391,10 @@ void nfct_filter_add_attr_u32(struct nfct_filter *filter,
  * \param logic filter logic that we want to use
  *
  * You can only use this function once to set the filtering logic for 
- * one attribute. You can define two logics: NFCT_FILTER_POSITIVE_LOGIC
- * that accept events that match the filter, and NFCT_FILTER_NEGATIVE_LOGIC
+ * one attribute. You can define two logics: NFCT_FILTER_LOGIC_POSITIVE
+ * that accept events that match the filter, and NFCT_FILTER_LOGIC_NEGATIVE
  * that rejects events that match the filter. Default filtering logic is
- * NFCT_FILTER_POSITIVE_LOGIC.
+ * NFCT_FILTER_LOGIC_POSITIVE.
  *
  * On error, it returns -1 and errno is appropriately set. On success, it 
  * returns 0.
@@ -1504,7 +1511,7 @@ void nfct_filter_dump_set_attr(struct nfct_filter_dump *filter_dump,
  */
 void nfct_filter_dump_set_attr_u8(struct nfct_filter_dump *filter_dump,
 				  const enum nfct_filter_dump_attr type,
-				  u_int8_t value)
+				  uint8_t value)
 {
 	nfct_filter_dump_set_attr(filter_dump, type, &value);
 }
@@ -1694,6 +1701,34 @@ unsigned int nfct_bitmask_maxbit(const struct nfct_bitmask *b)
 void nfct_bitmask_destroy(struct nfct_bitmask *b)
 {
 	free(b);
+}
+
+/*
+ * nfct_bitmask_clear - clear a bitmask object
+ *
+ * \param b pointer to the bitmask object to clear
+ */
+void nfct_bitmask_clear(struct nfct_bitmask *b)
+{
+	unsigned int bytes = b->words * sizeof(b->bits[0]);
+	memset(b->bits, 0, bytes);
+}
+
+/*
+ * nfct_bitmask_equal - compare two bitmask objects
+ *
+ * \param b1 pointer to a valid bitmask object
+ * \param b2 pointer to a valid bitmask object
+ *
+ * If both bitmask object are equal, this function returns true, otherwise
+ * false is returned.
+ */
+bool nfct_bitmask_equal(const struct nfct_bitmask *b1, const struct nfct_bitmask *b2)
+{
+	if (b1->words != b2->words)
+		return false;
+
+	return memcmp(b1->bits, b2->bits, b1->words * sizeof(b1->bits[0])) == 0;
 }
 
 /**
