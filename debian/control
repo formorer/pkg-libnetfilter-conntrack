@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Alexander Wirt <formorer@debian.org>
 Homepage: http://www.netfilter.org/projects/libnetfilter_conntrack/
 Build-Depends: debhelper (>= 9), libnfnetlink-dev (>= 1.0.0), libmnl-dev (>= 1.0.3), libtool, dh-autoreconf
-Standards-Version: 3.9.4
+Standards-Version: 3.9.6
 Vcs-Browser: https://github.com/formorer/pkg-libnetfilter-conntrack
 Vcs-Git: git://github.com/formorer/pkg-libnetfilter-conntrack.git
 
