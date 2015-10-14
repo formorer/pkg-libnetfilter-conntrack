@@ -44,7 +44,7 @@ nfct_parse_ip_attr_cb(const struct nlattr *attr, void *data)
 
 static int
 nfct_parse_ip(const struct nlattr *attr, struct __nfct_tuple *tuple,
-	     const int dir, u_int32_t *set)
+	     const int dir, uint32_t *set)
 {
 	struct nlattr *tb[CTA_IP_MAX+1] = {};
 
@@ -147,7 +147,7 @@ nfct_parse_proto_attr_cb(const struct nlattr *attr, void *data)
 
 static int
 nfct_parse_proto(const struct nlattr *attr, struct __nfct_tuple *tuple,
-		const int dir, u_int32_t *set)
+		const int dir, uint32_t *set)
 {
 	struct nlattr *tb[CTA_PROTO_MAX+1] = {};
 
@@ -261,7 +261,7 @@ static int nfct_parse_tuple_attr_cb(const struct nlattr *attr, void *data)
 
 int
 nfct_parse_tuple(const struct nlattr *attr, struct __nfct_tuple *tuple,
-		int dir, u_int32_t *set)
+		int dir, uint32_t *set)
 {
 	struct nlattr *tb[CTA_TUPLE_MAX+1] = {};
 
@@ -766,7 +766,7 @@ nfct_parse_timestamp(const struct nlattr *attr, struct nf_conntrack *ct)
 	}
 	if (tb[CTA_TIMESTAMP_STOP]) {
 		ct->timestamp.stop =
-			be64toh(mnl_attr_get_u64(tb[CTA_TIMESTAMP_START]));
+			be64toh(mnl_attr_get_u64(tb[CTA_TIMESTAMP_STOP]));
 		set_bit(ATTR_TIMESTAMP_STOP, ct->head.set);
 	}
 
@@ -968,5 +968,6 @@ int nfct_nlmsg_parse(const struct nlmsghdr *nlh, struct nf_conntrack *ct)
 	struct nfgenmsg *nfhdr = mnl_nlmsg_get_payload(nlh);
 
 	return nfct_payload_parse((uint8_t *)nfhdr + sizeof(struct nfgenmsg),
-				  nlh->nlmsg_len, nfhdr->nfgen_family, ct);
+				  mnl_nlmsg_get_payload_len(nlh) - sizeof(struct nfgenmsg),
+				  nfhdr->nfgen_family, ct);
 }

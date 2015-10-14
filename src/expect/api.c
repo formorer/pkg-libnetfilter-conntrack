@@ -329,7 +329,7 @@ void nfexp_set_attr(struct nf_expect *exp,
  */
 void nfexp_set_attr_u8(struct nf_expect *exp,
 		       const enum nf_expect_attr type, 
-		       u_int8_t value)
+		       uint8_t value)
 {
 	nfexp_set_attr(exp, type, &value);
 }
@@ -342,7 +342,7 @@ void nfexp_set_attr_u8(struct nf_expect *exp,
  */
 void nfexp_set_attr_u16(struct nf_expect *exp,
 			const enum nf_expect_attr type, 
-			u_int16_t value)
+			uint16_t value)
 {
 	nfexp_set_attr(exp, type, &value);
 }
@@ -355,7 +355,7 @@ void nfexp_set_attr_u16(struct nf_expect *exp,
  */
 void nfexp_set_attr_u32(struct nf_expect *exp,
 			const enum nf_expect_attr type, 
-			u_int32_t value)
+			uint32_t value)
 {
 	nfexp_set_attr(exp, type, &value);
 }
@@ -395,10 +395,10 @@ const void *nfexp_get_attr(const struct nf_expect *exp,
  * set, 0 is returned. In order to check if the attribute is set or not,
  * use nfexp_attr_is_set.
  */
-u_int8_t nfexp_get_attr_u8(const struct nf_expect *exp,
+uint8_t nfexp_get_attr_u8(const struct nf_expect *exp,
 			   const enum nf_expect_attr type)
 {
-	const u_int8_t *ret = nfexp_get_attr(exp, type);
+	const uint8_t *ret = nfexp_get_attr(exp, type);
 	return ret == NULL ? 0 : *ret;
 }
 
@@ -411,10 +411,10 @@ u_int8_t nfexp_get_attr_u8(const struct nf_expect *exp,
  * set, 0 is returned. In order to check if the attribute is set or not,
  * use nfexp_attr_is_set.
  */
-u_int16_t nfexp_get_attr_u16(const struct nf_expect *exp,
+uint16_t nfexp_get_attr_u16(const struct nf_expect *exp,
 			     const enum nf_expect_attr type)
 {
-	const u_int16_t *ret = nfexp_get_attr(exp, type);
+	const uint16_t *ret = nfexp_get_attr(exp, type);
 	return ret == NULL ? 0 : *ret;
 }
 
@@ -427,10 +427,10 @@ u_int16_t nfexp_get_attr_u16(const struct nf_expect *exp,
  * set, 0 is returned. In order to check if the attribute is set or not,
  * use nfexp_attr_is_set.
  */
-u_int32_t nfexp_get_attr_u32(const struct nf_expect *exp,
+uint32_t nfexp_get_attr_u32(const struct nf_expect *exp,
 			    const enum nf_expect_attr type)
 {
-	const u_int32_t *ret = nfexp_get_attr(exp, type);
+	const uint32_t *ret = nfexp_get_attr(exp, type);
 	return ret == NULL ? 0 : *ret;
 }
 
@@ -504,8 +504,8 @@ int nfexp_attr_unset(struct nf_expect *exp,
 int nfexp_build_expect(struct nfnl_subsys_handle *ssh,
 		       void *req,
 		       size_t size,
-		       u_int16_t type,
-		       u_int16_t flags,
+		       uint16_t type,
+		       uint16_t flags,
 		       const struct nf_expect *exp)
 {
 	assert(ssh != NULL);
@@ -521,7 +521,7 @@ __build_query_exp(struct nfnl_subsys_handle *ssh,
 		  const void *data, void *buffer, unsigned int size)
 {
 	struct nfnlhdr *req = buffer;
-	const u_int8_t *family = data;
+	const uint8_t *family = data;
 
 	assert(ssh != NULL);
 	assert(data != NULL);
@@ -580,7 +580,7 @@ __build_query_exp(struct nfnl_subsys_handle *ssh,
  * 	NFEXP_Q_FLUSH
  * 	NFEXP_Q_DUMP
  * 
- * Pass a valid pointer to the protocol family (u_int8_t)
+ * Pass a valid pointer to the protocol family (uint8_t)
  * 
  * On success, 0 is returned. On error, -1 is returned and errno is set
  * appropiately.
@@ -720,9 +720,15 @@ int nfexp_send(struct nfct_handle *h,
  * nfexp_catch - catch events
  * \param h library handler
  *
- * On error, -1 is returned and errno is set appropiately. On success, 
+ * This function receives the event from the kernel and it invokes the
+ * callback that was registered to this handle.
+ *
+ * On error, -1 is returned and errno is set appropiately. On success,
  * a value greater or equal to 0 is returned indicating the callback
- * verdiexp: NFEXP_CB_STOP, NFEXP_CB_CONTINUE or NFEXP_CB_STOLEN
+ * verdict: NFCT_CB_STOP, NFCT_CB_CONTINUE or NFCT_CB_STOLEN.
+ *
+ * Beware that this function is equivalent to nfct_catch(), so it handles both
+ * conntrack and expectation events.
  */
 int nfexp_catch(struct nfct_handle *h)
 {

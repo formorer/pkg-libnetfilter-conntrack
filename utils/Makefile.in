@@ -72,6 +72,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
+CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am_conntrack_create_OBJECTS = conntrack_create.$(OBJEXT)
@@ -143,7 +144,7 @@ expect_flush_DEPENDENCIES = ../src/libnetfilter_conntrack.la
 am_expect_get_OBJECTS = expect_get.$(OBJEXT)
 expect_get_OBJECTS = $(am_expect_get_OBJECTS)
 expect_get_DEPENDENCIES = ../src/libnetfilter_conntrack.la
-DEFAULT_INCLUDES = -I.@am__isrc@
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
