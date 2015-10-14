@@ -1,3 +1,12 @@
+libnetfilter-conntrack (1.0.5-1) unstable; urgency=medium
+
+  [ Arturo Borrero Gonzalez ]
+  * [b86c655] Imported Upstream version 1.0.5
+  * [db5a75e] d/copyright: add proper copyright file
+  * [41d1f07] d/control: bump standars to 3.9.6
+
+ -- Alexander Wirt <formorer@debian.org>  Wed, 14 Oct 2015 12:38:18 +0200
+
 libnetfilter-conntrack (1.0.4-1) unstable; urgency=low
 
   * [2d8ac0b] Imported Upstream version 1.0.4
