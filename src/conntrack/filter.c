@@ -59,9 +59,9 @@ static void filter_attr_src_ipv6(struct nfct_filter *filter, const void *value)
 		return;
 
 	memcpy(filter->l3proto_ipv6[0][filter->l3proto_elems_ipv6[0]].addr,
-	       this->addr, sizeof(u_int32_t)*4);
+	       this->addr, sizeof(uint32_t)*4);
 	memcpy(filter->l3proto_ipv6[0][filter->l3proto_elems_ipv6[0]].mask,
-	       this->mask, sizeof(u_int32_t)*4);
+	       this->mask, sizeof(uint32_t)*4);
 	filter->l3proto_elems_ipv6[0]++;
 }
 
@@ -73,10 +73,22 @@ static void filter_attr_dst_ipv6(struct nfct_filter *filter, const void *value)
 		return;
 
 	memcpy(filter->l3proto_ipv6[1][filter->l3proto_elems_ipv6[1]].addr,
-	       this->addr, sizeof(u_int32_t)*4);
+	       this->addr, sizeof(uint32_t)*4);
 	memcpy(filter->l3proto_ipv6[1][filter->l3proto_elems_ipv6[1]].mask,
-	       this->mask, sizeof(u_int32_t)*4);
+	       this->mask, sizeof(uint32_t)*4);
 	filter->l3proto_elems_ipv6[1]++;
+}
+
+static void filter_attr_mark(struct nfct_filter *filter, const void *value)
+{
+	const struct nfct_filter_dump_mark *this = value;
+
+	if (filter->mark_elems >= __FILTER_MARK_MAX)
+		return;
+
+	filter->mark[filter->mark_elems].val = this->val;
+	filter->mark[filter->mark_elems].mask = this->mask;
+	filter->mark_elems++;
 }
 
 const filter_attr filter_attr_array[NFCT_FILTER_MAX] = {
@@ -86,4 +98,5 @@ const filter_attr filter_attr_array[NFCT_FILTER_MAX] = {
 	[NFCT_FILTER_DST_IPV4]		= filter_attr_dst_ipv4,
 	[NFCT_FILTER_SRC_IPV6]		= filter_attr_src_ipv6,
 	[NFCT_FILTER_DST_IPV6]		= filter_attr_dst_ipv6,
+	[NFCT_FILTER_MARK]		= filter_attr_mark,
 };
