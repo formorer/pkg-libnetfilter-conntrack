@@ -136,6 +136,10 @@ enum nf_conntrack_attr {
 	ATTR_HELPER_INFO,			/* variable length */
 	ATTR_CONNLABELS,			/* variable length */
 	ATTR_CONNLABELS_MASK,			/* variable length */
+	ATTR_ORIG_ZONE,				/* u16 bits */
+	ATTR_REPL_ZONE,				/* u16 bits */
+	ATTR_SNAT_IPV6,				/* u128 bits */
+	ATTR_DNAT_IPV6,				/* u128 bits */
 	ATTR_MAX
 };
 
@@ -293,6 +297,7 @@ bool nfct_bitmask_equal(const struct nfct_bitmask *, const struct nfct_bitmask *
 /* connlabel name <-> bit translation mapping */
 struct nfct_labelmap;
 
+const char *nfct_labels_get_path(void);
 struct nfct_labelmap *nfct_labelmap_new(const char *mapfile);
 void nfct_labelmap_destroy(struct nfct_labelmap *map);
 const char *nfct_labelmap_get_name(struct nfct_labelmap *m, unsigned int bit);

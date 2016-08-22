@@ -58,6 +58,7 @@ int __snprintf_expect_xml(char *buf, unsigned int len, const struct nf_expect *e
 /*
  * connlabel internal prototypes
  */
+const char *__labels_get_path(void);
 struct nfct_labelmap *__labelmap_new(const char *);
 void __labelmap_destroy(struct nfct_labelmap *);
 

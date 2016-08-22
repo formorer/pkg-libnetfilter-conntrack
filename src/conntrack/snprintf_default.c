@@ -171,6 +171,13 @@ int __snprintf_proto(char *buf,
 	return size;
 }
 
+static int
+__snprintf_tuple_zone(char *buf, unsigned int len, const char *pfx,
+		      const struct __nfct_tuple *tuple)
+{
+	return (snprintf(buf, len, "zone-%s=%u ", pfx, tuple->zone));
+}
+
 static int __snprintf_status_assured(char *buf,
 				     unsigned int len,
 				     const struct nf_conntrack *ct)
@@ -396,6 +403,11 @@ int __snprintf_conntrack_default(char *buf,
 	ret = __snprintf_proto(buf+offset, len, &ct->head.orig);
 	BUFFER_SIZE(ret, size, len, offset);
 
+	if (test_bit(ATTR_ORIG_ZONE, ct->head.set)) {
+		ret = __snprintf_tuple_zone(buf+offset, len, "orig", &ct->head.orig);
+		BUFFER_SIZE(ret, size, len, offset);
+	}
+
 	if (test_bit(ATTR_ORIG_COUNTER_PACKETS, ct->head.set) &&
 	    test_bit(ATTR_ORIG_COUNTER_BYTES, ct->head.set)) {
 		ret = __snprintf_counters(buf+offset, len, ct, __DIR_ORIG);
@@ -413,6 +425,11 @@ int __snprintf_conntrack_default(char *buf,
 
 	ret = __snprintf_proto(buf+offset, len, &ct->repl);
 	BUFFER_SIZE(ret, size, len, offset);
+
+	if (test_bit(ATTR_REPL_ZONE, ct->head.set)) {
+		ret = __snprintf_tuple_zone(buf+offset, len, "reply", &ct->repl);
+		BUFFER_SIZE(ret, size, len, offset);
+	}
 
 	if (test_bit(ATTR_REPL_COUNTER_PACKETS, ct->head.set) &&
 	    test_bit(ATTR_REPL_COUNTER_BYTES, ct->head.set)) {

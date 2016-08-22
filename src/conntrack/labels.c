@@ -209,6 +209,11 @@ static bool label_is_sane(const char *label)
 	return true;
 }
 
+const char *__labels_get_path(void)
+{
+	return CONNLABEL_CFG;
+}
+
 struct nfct_labelmap *__labelmap_new(const char *name)
 {
 	struct nfct_labelmap *map;

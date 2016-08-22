@@ -149,6 +149,15 @@ cmp_orig_ipv6_dst(const struct nf_conntrack *ct1,
 		sizeof(struct in6_addr)) == 0);
 }
 
+static int
+cmp_orig_zone(const struct nf_conntrack *ct1,
+	      const struct nf_conntrack *ct2,
+	      unsigned int flags)
+{
+	return nfct_get_attr_u16(ct1, ATTR_ORIG_ZONE) ==
+	       nfct_get_attr_u16(ct2, ATTR_ORIG_ZONE);
+}
+
 int __cmp_orig(const struct nf_conntrack *ct1,
 	       const struct nf_conntrack *ct2,
 	       unsigned int flags)
@@ -164,6 +173,8 @@ int __cmp_orig(const struct nf_conntrack *ct1,
 	if (!__cmp(ATTR_ORIG_IPV6_SRC, ct1, ct2, flags, cmp_orig_ipv6_src, true))
 		return 0;
 	if (!__cmp(ATTR_ORIG_IPV6_DST, ct1, ct2, flags, cmp_orig_ipv6_dst, true))
+		return 0;
+	if (!__cmp(ATTR_ORIG_ZONE, ct1, ct2, flags, cmp_orig_zone, false))
 		return 0;
 
 	return 1;
@@ -259,6 +270,15 @@ cmp_repl_ipv6_dst(const struct nf_conntrack *ct1,
 		sizeof(struct in6_addr)) == 0);
 }
 
+static int
+cmp_repl_zone(const struct nf_conntrack *ct1,
+	      const struct nf_conntrack *ct2,
+	      unsigned int flags)
+{
+	return nfct_get_attr_u16(ct1, ATTR_REPL_ZONE) ==
+	       nfct_get_attr_u16(ct2, ATTR_REPL_ZONE);
+}
+
 static int cmp_repl(const struct nf_conntrack *ct1,
 		    const struct nf_conntrack *ct2,
 		    unsigned int flags)
@@ -274,6 +294,8 @@ static int cmp_repl(const struct nf_conntrack *ct1,
 	if (!__cmp(ATTR_REPL_IPV6_SRC, ct1, ct2, flags, cmp_repl_ipv6_src, true))
 		return 0;
 	if (!__cmp(ATTR_REPL_IPV6_DST, ct1, ct2, flags, cmp_repl_ipv6_dst, true))
+		return 0;
+	if (!__cmp(ATTR_REPL_ZONE, ct1, ct2, flags, cmp_repl_zone, false))
 		return 0;
 
 	return 1;

@@ -86,18 +86,20 @@ static void __build_tuple_proto(struct nfnlhdr *req,
 	nfnl_nest_end(&req->nlh, nest);
 }
 
-void __build_tuple(struct nfnlhdr *req, 
-		   size_t size, 
-		   const struct __nfct_tuple *t, 
-		   const int type)
+static void __build_tuple_raw(struct nfnlhdr *req, size_t size,
+			      const struct __nfct_tuple *t)
+{
+	__build_tuple_ip(req, size, t);
+	__build_tuple_proto(req, size, t);
+}
+
+void __build_tuple(struct nfnlhdr *req, size_t size,
+		   const struct __nfct_tuple *t, const int type)
 {
 	struct nfattr *nest;
 
 	nest = nfnl_nest(&req->nlh, size, type);
-
-	__build_tuple_ip(req, size, t);
-	__build_tuple_proto(req, size, t);
-
+	__build_tuple_raw(req, size, t);
 	nfnl_nest_end(&req->nlh, nest);
 }
 
@@ -273,20 +275,32 @@ static void __build_protonat(struct nfnlhdr *req,
 
 static void __build_nat(struct nfnlhdr *req,
 			size_t size,
-			const struct __nfct_nat *nat)
+			const struct __nfct_nat *nat,
+			uint8_t l3protonum)
 {
-	nfnl_addattr_l(&req->nlh, size, CTA_NAT_MINIP,
-		       &nat->min_ip, sizeof(uint32_t));
+	switch (l3protonum) {
+	case AF_INET:
+		nfnl_addattr_l(&req->nlh, size, CTA_NAT_MINIP,
+			       &nat->min_ip.v4, sizeof(uint32_t));
+		break;
+	case AF_INET6:
+		nfnl_addattr_l(&req->nlh, size, CTA_NAT_V6_MINIP,
+			       &nat->min_ip.v6, sizeof(struct in6_addr));
+		break;
+	default:
+		break;
+	}
 }
 
 static void __build_snat(struct nfnlhdr *req,
 			 size_t size,
-			 const struct nf_conntrack *ct)
+			 const struct nf_conntrack *ct,
+			 uint8_t l3protonum)
 {
 	struct nfattr *nest;
 
 	nest = nfnl_nest(&req->nlh, size, CTA_NAT_SRC);
-	__build_nat(req, size, &ct->snat);
+	__build_nat(req, size, &ct->snat, l3protonum);
 	__build_protonat(req, size, ct, &ct->snat);
 	nfnl_nest_end(&req->nlh, nest);
 }
@@ -298,7 +312,18 @@ static void __build_snat_ipv4(struct nfnlhdr *req,
 	struct nfattr *nest;
 
 	nest = nfnl_nest(&req->nlh, size, CTA_NAT_SRC);
-	__build_nat(req, size, &ct->snat);
+	__build_nat(req, size, &ct->snat, AF_INET);
+	nfnl_nest_end(&req->nlh, nest);
+}
+
+static void __build_snat_ipv6(struct nfnlhdr *req,
+			      size_t size,
+			      const struct nf_conntrack *ct)
+{
+	struct nfattr *nest;
+
+	nest = nfnl_nest(&req->nlh, size, CTA_NAT_SRC);
+	__build_nat(req, size, &ct->snat, AF_INET6);
 	nfnl_nest_end(&req->nlh, nest);
 }
 
@@ -315,12 +340,13 @@ static void __build_snat_port(struct nfnlhdr *req,
 
 static void __build_dnat(struct nfnlhdr *req,
 			 size_t size,
-			 const struct nf_conntrack *ct)
+			 const struct nf_conntrack *ct,
+			 uint8_t l3protonum)
 {
 	struct nfattr *nest;
 
 	nest = nfnl_nest(&req->nlh, size, CTA_NAT_DST);
-	__build_nat(req, size, &ct->dnat);
+	__build_nat(req, size, &ct->dnat, l3protonum);
 	__build_protonat(req, size, ct, &ct->dnat);
 	nfnl_nest_end(&req->nlh, nest);
 }
@@ -332,7 +358,18 @@ static void __build_dnat_ipv4(struct nfnlhdr *req,
 	struct nfattr *nest;
 
 	nest = nfnl_nest(&req->nlh, size, CTA_NAT_DST);
-	__build_nat(req, size, &ct->dnat);
+	__build_nat(req, size, &ct->dnat, AF_INET);
+	nfnl_nest_end(&req->nlh, nest);
+}
+
+static void __build_dnat_ipv6(struct nfnlhdr *req,
+			      size_t size,
+			      const struct nf_conntrack *ct)
+{
+	struct nfattr *nest;
+
+	nest = nfnl_nest(&req->nlh, size, CTA_NAT_DST);
+	__build_nat(req, size, &ct->dnat, AF_INET6);
 	nfnl_nest_end(&req->nlh, nest);
 }
 
@@ -448,10 +485,20 @@ int __build_conntrack(struct nfnl_subsys_handle *ssh,
 	    test_bit(ATTR_ORIG_PORT_DST, ct->head.set) ||
 	    test_bit(ATTR_ORIG_L3PROTO, ct->head.set)  ||
 	    test_bit(ATTR_ORIG_L4PROTO, ct->head.set)  ||
+	    test_bit(ATTR_ORIG_ZONE, ct->head.set)     ||
 	    test_bit(ATTR_ICMP_TYPE, ct->head.set) 	  ||
 	    test_bit(ATTR_ICMP_CODE, ct->head.set)	  ||
-	    test_bit(ATTR_ICMP_ID, ct->head.set))
-		__build_tuple(req, size, &ct->head.orig, CTA_TUPLE_ORIG);
+	    test_bit(ATTR_ICMP_ID, ct->head.set)) {
+		const struct __nfct_tuple *t = &ct->head.orig;
+		struct nfattr *nest;
+
+		nest = nfnl_nest(&req->nlh, size, CTA_TUPLE_ORIG);
+		__build_tuple_raw(req, size, t);
+		if (test_bit(ATTR_ORIG_ZONE, ct->head.set))
+			nfnl_addattr16(&req->nlh, size, CTA_TUPLE_ZONE,
+				       htons(t->zone));
+		nfnl_nest_end(&req->nlh, nest);
+	}
 
 	if (test_bit(ATTR_REPL_IPV4_SRC, ct->head.set) ||
 	    test_bit(ATTR_REPL_IPV4_DST, ct->head.set) ||
@@ -460,8 +507,18 @@ int __build_conntrack(struct nfnl_subsys_handle *ssh,
 	    test_bit(ATTR_REPL_PORT_SRC, ct->head.set) ||
 	    test_bit(ATTR_REPL_PORT_DST, ct->head.set) ||
 	    test_bit(ATTR_REPL_L3PROTO, ct->head.set)  ||
-	    test_bit(ATTR_REPL_L4PROTO, ct->head.set))
-		__build_tuple(req, size, &ct->repl, CTA_TUPLE_REPLY);
+	    test_bit(ATTR_REPL_L4PROTO, ct->head.set)  ||
+	    test_bit(ATTR_REPL_ZONE, ct->head.set)) {
+		const struct __nfct_tuple *t = &ct->repl;
+		struct nfattr *nest;
+
+		nest = nfnl_nest(&req->nlh, size, CTA_TUPLE_REPLY);
+		__build_tuple_raw(req, size, t);
+		if (test_bit(ATTR_REPL_ZONE, ct->head.set))
+			nfnl_addattr16(&req->nlh, size, CTA_TUPLE_ZONE,
+				       htons(t->zone));
+		nfnl_nest_end(&req->nlh, nest);
+	}
 
 	if (test_bit(ATTR_MASTER_IPV4_SRC, ct->head.set) ||
 	    test_bit(ATTR_MASTER_IPV4_DST, ct->head.set) ||
@@ -492,19 +549,29 @@ int __build_conntrack(struct nfnl_subsys_handle *ssh,
 
 	__build_protoinfo(req, size, ct);
 
-	if (test_bit(ATTR_SNAT_IPV4, ct->head.set) && 
+	if (test_bit(ATTR_SNAT_IPV4, ct->head.set) &&
 	    test_bit(ATTR_SNAT_PORT, ct->head.set))
-		__build_snat(req, size, ct);
+		__build_snat(req, size, ct, AF_INET);
+	else if (test_bit(ATTR_SNAT_IPV6, ct->head.set) &&
+		 test_bit(ATTR_SNAT_PORT, ct->head.set))
+		__build_snat(req, size, ct, AF_INET6);
 	else if (test_bit(ATTR_SNAT_IPV4, ct->head.set))
 		__build_snat_ipv4(req, size, ct);
+	else if (test_bit(ATTR_SNAT_IPV6, ct->head.set))
+		__build_snat_ipv6(req, size, ct);
 	else if (test_bit(ATTR_SNAT_PORT, ct->head.set))
 		__build_snat_port(req, size, ct);
 
 	if (test_bit(ATTR_DNAT_IPV4, ct->head.set) &&
 	    test_bit(ATTR_DNAT_PORT, ct->head.set))
-		__build_dnat(req, size, ct);
+		__build_dnat(req, size, ct, AF_INET);
+	else if (test_bit(ATTR_DNAT_IPV6, ct->head.set) &&
+		 test_bit(ATTR_DNAT_PORT, ct->head.set))
+		__build_dnat(req, size, ct, AF_INET6);
 	else if (test_bit(ATTR_DNAT_IPV4, ct->head.set))
 		__build_dnat_ipv4(req, size, ct);
+	else if (test_bit(ATTR_DNAT_IPV6, ct->head.set))
+		__build_dnat_ipv6(req, size, ct);
 	else if (test_bit(ATTR_DNAT_PORT, ct->head.set))
 		__build_dnat_port(req, size, ct);
 

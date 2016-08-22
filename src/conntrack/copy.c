@@ -89,6 +89,18 @@ static void copy_attr_repl_port_dst(struct nf_conntrack *dest,
 	dest->repl.l4dst.all = orig->repl.l4dst.all;
 }
 
+static void copy_attr_orig_zone(struct nf_conntrack *dest,
+				const struct nf_conntrack *orig)
+{
+	dest->head.orig.zone = orig->head.orig.zone;
+}
+
+static void copy_attr_repl_zone(struct nf_conntrack *dest,
+				const struct nf_conntrack *orig)
+{
+	dest->repl.zone = orig->repl.zone;
+}
+
 static void copy_attr_icmp_type(struct nf_conntrack *dest,
 				const struct nf_conntrack *orig)
 {
@@ -275,13 +287,27 @@ static void copy_attr_dccp_handshake_seq(struct nf_conntrack *dest,
 static void copy_attr_snat_ipv4(struct nf_conntrack *dest,
 				const struct nf_conntrack *orig)
 {
-	dest->snat.min_ip = orig->snat.min_ip;
+	dest->snat.min_ip.v4 = orig->snat.min_ip.v4;
 }
 
 static void copy_attr_dnat_ipv4(struct nf_conntrack *dest,
 				const struct nf_conntrack *orig)
 {
-	dest->dnat.min_ip = orig->dnat.min_ip;
+	dest->dnat.min_ip.v4 = orig->dnat.min_ip.v4;
+}
+
+static void copy_attr_snat_ipv6(struct nf_conntrack *dest,
+				const struct nf_conntrack *orig)
+{
+	memcpy(&dest->snat.min_ip.v6, &orig->snat.min_ip.v6,
+	       sizeof(struct in6_addr));
+}
+
+static void copy_attr_dnat_ipv6(struct nf_conntrack *dest,
+				const struct nf_conntrack *orig)
+{
+	memcpy(&dest->dnat.min_ip.v6, &orig->dnat.min_ip.v6,
+	       sizeof(struct in6_addr));
 }
 
 static void copy_attr_snat_port(struct nf_conntrack *dest,
@@ -535,12 +561,16 @@ const copy_attr copy_attr_array[ATTR_MAX] = {
 	[ATTR_TCP_WSCALE_ORIG]		= copy_attr_tcp_wscale_orig,
 	[ATTR_TCP_WSCALE_REPL]		= copy_attr_tcp_wscale_repl,
 	[ATTR_ZONE]			= copy_attr_zone,
+	[ATTR_ORIG_ZONE]		= copy_attr_orig_zone,
+	[ATTR_REPL_ZONE]		= copy_attr_repl_zone,
 	[ATTR_SECCTX]			= copy_attr_secctx,
 	[ATTR_TIMESTAMP_START]		= copy_attr_timestamp_start,
 	[ATTR_TIMESTAMP_STOP]		= copy_attr_timestamp_stop,
 	[ATTR_HELPER_INFO]		= copy_attr_help_info,
 	[ATTR_CONNLABELS]		= copy_attr_connlabels,
 	[ATTR_CONNLABELS_MASK]		= copy_attr_connlabels_mask,
+	[ATTR_SNAT_IPV6]		= copy_attr_snat_ipv6,
+	[ATTR_DNAT_IPV6]		= copy_attr_dnat_ipv6,
 };
 
 /* this is used by nfct_copy() with the NFCT_CP_OVERRIDE flag set. */

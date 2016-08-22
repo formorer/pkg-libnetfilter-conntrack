@@ -189,6 +189,18 @@ void __parse_tuple(const struct nfattr *attr,
 		__parse_ip(tb[CTA_TUPLE_IP-1], tuple, dir, set);
 	if (tb[CTA_TUPLE_PROTO-1])
 		__parse_proto(tb[CTA_TUPLE_PROTO-1], tuple, dir, set);
+
+	if (tb[CTA_TUPLE_ZONE-1]) {
+		tuple->zone = ntohs(*(uint16_t *)NFA_DATA(tb[CTA_TUPLE_ZONE-1]));
+		switch(dir) {
+		case __DIR_ORIG:
+			set_bit(ATTR_ORIG_ZONE, set);
+			break;
+		case __DIR_REPL:
+			set_bit(ATTR_REPL_ZONE, set);
+			break;
+		}
+	}
 }
 
 static void __parse_protoinfo_tcp(const struct nfattr *attr, 

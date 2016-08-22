@@ -254,7 +254,12 @@ static int nfct_parse_tuple_attr_cb(const struct nlattr *attr, void *data)
 		if (mnl_attr_validate(attr, MNL_TYPE_NESTED) < 0)
 			return MNL_CB_ERROR;
 		break;
+	case CTA_TUPLE_ZONE:
+		if (mnl_attr_validate(attr, MNL_TYPE_U16) < 0)
+			return MNL_CB_ERROR;
+		break;
 	}
+
 	tb[type] = attr;
 	return MNL_CB_OK;
 }
@@ -276,6 +281,18 @@ nfct_parse_tuple(const struct nlattr *attr, struct __nfct_tuple *tuple,
 	if (tb[CTA_TUPLE_PROTO]) {
 		if (nfct_parse_proto(tb[CTA_TUPLE_PROTO], tuple, dir, set) < 0)
 			return -1;
+	}
+
+	if (tb[CTA_TUPLE_ZONE]) {
+		tuple->zone = ntohs(mnl_attr_get_u16(tb[CTA_TUPLE_ZONE]));
+		switch(dir) {
+		case __DIR_ORIG:
+			set_bit(ATTR_ORIG_ZONE, set);
+			break;
+		case __DIR_REPL:
+			set_bit(ATTR_REPL_ZONE, set);
+			break;
+		}
 	}
 
 	return 0;

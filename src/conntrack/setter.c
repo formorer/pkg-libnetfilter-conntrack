@@ -110,6 +110,18 @@ set_attr_repl_port_dst(struct nf_conntrack *ct, const void *value, size_t len)
 }
 
 static void
+set_attr_orig_zone(struct nf_conntrack *ct, const void *value, size_t len)
+{
+	ct->head.orig.zone = *((uint16_t *) value);
+}
+
+static void
+set_attr_repl_zone(struct nf_conntrack *ct, const void *value, size_t len)
+{
+	ct->repl.zone = *((uint16_t *) value);
+}
+
+static void
 set_attr_icmp_type(struct nf_conntrack *ct, const void *value, size_t len)
 {
 	uint8_t rtype;
@@ -225,13 +237,27 @@ set_attr_sctp_vtag_repl(struct nf_conntrack *ct, const void *value, size_t len)
 static void
 set_attr_snat_ipv4(struct nf_conntrack *ct, const void *value, size_t len)
 {
-	ct->snat.min_ip = ct->snat.max_ip = *((uint32_t *) value);
+	ct->snat.min_ip.v4 = ct->snat.max_ip.v4 = *((uint32_t *) value);
 }
 
 static void
 set_attr_dnat_ipv4(struct nf_conntrack *ct, const void *value, size_t len)
 {
-	ct->dnat.min_ip = ct->snat.max_ip = *((uint32_t *) value);
+	ct->dnat.min_ip.v4 = ct->dnat.max_ip.v4 = *((uint32_t *) value);
+}
+
+static void
+set_attr_snat_ipv6(struct nf_conntrack *ct, const void *value, size_t len)
+{
+	memcpy(&ct->snat.min_ip.v6, value, sizeof(struct in6_addr));
+	memcpy(&ct->snat.max_ip.v6, value, sizeof(struct in6_addr));
+}
+
+static void
+set_attr_dnat_ipv6(struct nf_conntrack *ct, const void *value, size_t len)
+{
+	memcpy(&ct->dnat.min_ip.v6, value, sizeof(struct in6_addr));
+	memcpy(&ct->dnat.max_ip.v6, value, sizeof(struct in6_addr));
 }
 
 static void
@@ -507,10 +533,14 @@ const set_attr set_attr_array[ATTR_MAX] = {
 	[ATTR_TCP_WSCALE_ORIG]	= set_attr_tcp_wscale_orig,
 	[ATTR_TCP_WSCALE_REPL]	= set_attr_tcp_wscale_repl,
 	[ATTR_ZONE]		= set_attr_zone,
+	[ATTR_ORIG_ZONE]	= set_attr_orig_zone,
+	[ATTR_REPL_ZONE]	= set_attr_repl_zone,
 	[ATTR_SECCTX]		= set_attr_do_nothing,
 	[ATTR_TIMESTAMP_START]	= set_attr_do_nothing,
 	[ATTR_TIMESTAMP_STOP]	= set_attr_do_nothing,
 	[ATTR_HELPER_INFO]	= set_attr_helper_info,
 	[ATTR_CONNLABELS]	= set_attr_connlabels,
 	[ATTR_CONNLABELS_MASK]	= set_attr_connlabels_mask,
+	[ATTR_SNAT_IPV6]	= set_attr_snat_ipv6,
+	[ATTR_DNAT_IPV6]	= set_attr_dnat_ipv6,
 };
