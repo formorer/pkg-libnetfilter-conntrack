@@ -4,7 +4,11 @@ Priority: optional
 Maintainer: Alexander Wirt <formorer@debian.org>
 Uploaders: Arturo Borrero Gonzalez <arturo.borrero.glez@gmail.com>
 Homepage: http://www.netfilter.org/projects/libnetfilter_conntrack/
-Build-Depends: debhelper (>= 9), libnfnetlink-dev (>= 1.0.0), libmnl-dev (>= 1.0.3), libtool, dh-autoreconf
+Build-Depends: debhelper (>= 9),
+               dh-autoreconf,
+               libmnl-dev (>= 1.0.3),
+               libnfnetlink-dev (>= 1.0.0),
+               libtool
 Standards-Version: 3.9.8
 Vcs-Browser: https://github.com/formorer/pkg-libnetfilter-conntrack
 Vcs-Git: git://github.com/formorer/pkg-libnetfilter-conntrack.git
@@ -13,7 +17,7 @@ Package: libnetfilter-conntrack3
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: Netfilter netlink-conntrack library
  libnetfilter_conntrack is a userspace library providing a programming
  interface (API) to the in-kernel connection tracking state table.
@@ -22,7 +26,9 @@ Package: libnetfilter-conntrack3-dbg
 Section: debug
 Priority: extra
 Architecture: any
-Depends: ${shlibs:Depends}, libnetfilter-conntrack3 (=  ${binary:Version}), ${misc:Depends}
+Depends: libnetfilter-conntrack3 (=  ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
 Description: Debugging symbols for libnetfilter-conntrack3
  libnetfilter_conntrack is a userspace library providing a programming
  interface (API) to the in-kernel connection tracking state table.
@@ -32,9 +38,12 @@ Description: Debugging symbols for libnetfilter-conntrack3
 Package: libnetfilter-conntrack-dev
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, pkg-config,
- libnetfilter-conntrack3 (= ${binary:Version}),
- libnfnetlink-dev (>= 1.0.0), ${misc:Depends}, ${misc:Pre-Depends}
+Depends: libnetfilter-conntrack3 (= ${binary:Version}),
+         libnfnetlink-dev (>= 1.0.0),
+         pkg-config,
+         ${misc:Depends},
+         ${misc:Pre-Depends},
+         ${shlibs:Depends}
 Description: Development files for libnetfilter-conntrack3
  libnetfilter_conntrack is a userspace library providing a programming
  interface (API) to the in-kernel connection tracking state table.
