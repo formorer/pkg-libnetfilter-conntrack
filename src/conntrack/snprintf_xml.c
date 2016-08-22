@@ -284,7 +284,7 @@ __snprintf_localtime_xml(char *buf, unsigned int len, const struct tm *tm)
 static int __snprintf_tuple_xml(char *buf,
 				unsigned int len,
 				const struct nf_conntrack *ct,
-				unsigned int dir)
+				unsigned int dir, bool zone_incl)
 {
 	int ret;
 	unsigned int size = 0, offset = 0;
@@ -329,6 +329,11 @@ static int __snprintf_tuple_xml(char *buf,
 
 	ret = snprintf(buf+offset, len, "</layer4>");
 	BUFFER_SIZE(ret, size, len, offset);
+
+	if (zone_incl) {
+		ret = snprintf(buf+offset, len, "<zone>%u</zone>", tuple->zone);
+		BUFFER_SIZE(ret, size, len, offset);
+	}
 
 	if (test_bit(ATTR_ORIG_COUNTER_PACKETS, ct->head.set) &&
 	    test_bit(ATTR_ORIG_COUNTER_BYTES, ct->head.set)) {
@@ -398,10 +403,12 @@ int __snprintf_conntrack_xml(char *buf,
 
 	BUFFER_SIZE(ret, size, len, offset);
 
-	ret = __snprintf_tuple_xml(buf+offset, len, ct, __DIR_ORIG);
+	ret = __snprintf_tuple_xml(buf+offset, len, ct, __DIR_ORIG,
+				   test_bit(ATTR_ORIG_ZONE, ct->head.set));
 	BUFFER_SIZE(ret, size, len, offset);
 
-	ret = __snprintf_tuple_xml(buf+offset, len, ct, __DIR_REPL);
+	ret = __snprintf_tuple_xml(buf+offset, len, ct, __DIR_REPL,
+				   test_bit(ATTR_REPL_ZONE, ct->head.set));
 	BUFFER_SIZE(ret, size, len, offset);
 
 	if (test_bit(ATTR_TCP_STATE, ct->head.set) ||

@@ -107,6 +107,8 @@ struct __nfct_tuple {
 
 	uint8_t			l3protonum;
 	uint8_t			protonum;
+	uint16_t		zone;
+
 	union __nfct_l4_src	l4src;
 	union __nfct_l4_dst	l4dst;
 };
@@ -142,7 +144,7 @@ struct __nfct_counters {
 };
 
 struct __nfct_nat {
-	uint32_t 		min_ip, max_ip;
+	union __nfct_address	min_ip, max_ip;
 	union __nfct_l4_src 	l4min, l4max;
 };
 

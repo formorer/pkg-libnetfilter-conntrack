@@ -178,6 +178,8 @@ static int test_nfct_cmp_api_single(struct nf_conntrack *ct1,
 	/* FIXME: not implemented comparators: */
 	case ATTR_SNAT_IPV4:
 	case ATTR_DNAT_IPV4:
+	case ATTR_SNAT_IPV6:
+	case ATTR_DNAT_IPV6:
 	case ATTR_SNAT_PORT:
 	case ATTR_DNAT_PORT:
 
@@ -385,6 +387,8 @@ static void test_nfct_cmp_api(struct nf_conntrack *ct1, struct nf_conntrack *ct2
 	printf("== test cmp API ==\n");
 
 	test_nfct_cmp_attr(ATTR_ZONE);
+	test_nfct_cmp_attr(ATTR_ORIG_ZONE);
+	test_nfct_cmp_attr(ATTR_REPL_ZONE);
 	test_nfct_cmp_attr(ATTR_MARK);
 
 	assert(nfct_cmp(ct1, ct2, NFCT_CMP_ALL) == 1);

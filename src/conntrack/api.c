@@ -955,7 +955,7 @@ int nfct_query(struct nfct_handle *h,
 	       const enum nf_conntrack_query qt,
 	       const void *data)
 {
-	size_t size = 4096;	/* enough for now */
+	const size_t size = 4096;	/* enough for now */
 	union {
 		char buffer[size];
 		struct nfnlhdr req;
@@ -987,7 +987,7 @@ int nfct_send(struct nfct_handle *h,
 	      const enum nf_conntrack_query qt,
 	      const void *data)
 {
-	size_t size = 4096;	/* enough for now */
+	const size_t size = 4096;	/* enough for now */
 	union {
 		char buffer[size];
 		struct nfnlhdr req;
@@ -1525,6 +1525,17 @@ void nfct_filter_dump_set_attr_u8(struct nfct_filter_dump *filter_dump,
  *
  * @{
  */
+
+/**
+ * nfct_labels_get_path - get name of default config path
+ *
+ * returns a pointer to a immutable (static) string containing
+ * the default connlabel.conf file location.
+ */
+const char *nfct_labels_get_path(void)
+{
+	return __labels_get_path();
+}
 
 /**
  * nfct_labelmap_get_name - get name of the label bit
