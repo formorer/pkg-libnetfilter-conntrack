@@ -1,3 +1,12 @@
+libnetfilter-conntrack (1.0.6-1) unstable; urgency=medium
+
+  * [6498d86] Imported Upstream version 1.0.6
+  * [a1f284a] d/control: add myself to Uploaders
+  * [63159c9] d/control: bump std-version to 3.9.8
+  * [6462045] d/: wrap-and-sort
+
+ -- Arturo Borrero Gonzalez <arturo.borrero.glez@gmail.com>  Mon, 22 Aug 2016 14:28:11 +0200
+
 libnetfilter-conntrack (1.0.5-1) unstable; urgency=medium
 
   [ Arturo Borrero Gonzalez ]
