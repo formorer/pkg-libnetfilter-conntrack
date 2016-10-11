@@ -1,3 +1,10 @@
+libnetfilter-conntrack (1.0.6-2) unstable; urgency=medium
+
+  * [07af40b] d/control: update Arturo's email address
+  * [4e69999] d/control: make -dev and -dbg packages Multi-Arch: same
+
+ -- Arturo Borrero Gonzalez <arturo@debian.org>  Tue, 11 Oct 2016 09:37:26 +0200
+
 libnetfilter-conntrack (1.0.6-1) unstable; urgency=medium
 
   * [6498d86] Imported Upstream version 1.0.6
