@@ -1,8 +1,8 @@
 Source: libnetfilter-conntrack
 Section: libs
 Priority: optional
-Maintainer: Alexander Wirt <formorer@debian.org>
-Uploaders: Arturo Borrero Gonzalez <arturo@debian.org>
+Maintainer: Debian Netfilter Packaging Team <pkg-netfilter-team@lists.alioth.debian.org>
+Uploaders: Alexander Wirt <formorer@debian.org>, Arturo Borrero Gonzalez <arturo@debian.org>
 Homepage: http://www.netfilter.org/projects/libnetfilter_conntrack/
 Build-Depends: debhelper (>= 9),
                dh-autoreconf,
@@ -10,8 +10,8 @@ Build-Depends: debhelper (>= 9),
                libnfnetlink-dev (>= 1.0.0),
                libtool
 Standards-Version: 3.9.8
-Vcs-Browser: https://github.com/formorer/pkg-libnetfilter-conntrack
-Vcs-Git: git://github.com/formorer/pkg-libnetfilter-conntrack.git
+Vcs-Git: https://anonscm.debian.org/git/pkg-netfilter/pkg-libnetfilter-conntrack.git/
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-netfilter/pkg-libnetfilter-conntrak.git/
 
 Package: libnetfilter-conntrack3
 Architecture: any
